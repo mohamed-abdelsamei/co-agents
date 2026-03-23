@@ -182,6 +182,8 @@ What this feature does and why it exists
 - **REQ-001**: {Specific, testable requirement}
 - **REQ-002**: {Another requirement}
 
+> **ID convention**: Use a feature prefix for globally unique IDs: `{PREFIX}-REQ-001` (e.g., `AUTH-REQ-001`, `ORD-REQ-002`). The prefix (3-4 uppercase letters) is derived from the feature name.
+
 ## Architecture
 
 High-level design decisions with rationale
@@ -192,8 +194,8 @@ High-level design decisions with rationale
 
 ## Acceptance Criteria
 
-- **AC-001** (REQ-001): {Testable criterion}
-- **AC-002** (REQ-002): {Testable criterion}
+- **AC-001** ({PREFIX}-REQ-001): {Testable criterion}
+- **AC-002** ({PREFIX}-REQ-002): {Testable criterion}
 
 ## Non-functional Requirements
 
@@ -215,8 +217,8 @@ High-level design decisions with rationale
 
 ## Setup
 
-- [ ] **T001** — {Clear action description}
-  - **Requires**: REQ-001
+- [ ] **{PREFIX}-001** — {Clear action description}
+  - **Requires**: {PREFIX}-REQ-001
   - **Depends on**: none
   - **Approach**: standard | TDD
   - **Complexity**: S | M | L
@@ -224,9 +226,9 @@ High-level design decisions with rationale
 
 ## {User Story Title}
 
-- [ ] **T002** — {Clear action description} `[P]`
-  - **Requires**: REQ-002
-  - **Depends on**: T001
+- [ ] **{PREFIX}-002** — {Clear action description} `[P]`
+  - **Requires**: {PREFIX}-REQ-002
+  - **Depends on**: {PREFIX}-001
   - **Approach**: TDD
   - **Complexity**: M
   - **Acceptance**: {Specific testable criteria}
@@ -250,7 +252,7 @@ Complexity: **S** (single-file), **M** (multiple files), **L** (complex logic). 
 
 | # | Requirement | Status | Details |
 |---|-------------|--------|---------|
-| REQ-001 | {description} | pass / partial / fail | {notes} |
+| {PREFIX}-REQ-001 | {description} | pass / partial / fail | {notes} |
 
 ## Findings
 

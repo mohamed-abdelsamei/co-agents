@@ -52,7 +52,8 @@ Produce requirements in `.co-agents/requirements/{feature}.md` using the templat
 
 Break requirements into tasks in `.co-agents/tasks/{feature}-tasks.md`:
 - Organize by **user story**, not by technical layer
-- Sequential IDs (`T001`, `T002`, ...) for traceability
+- Choose a short prefix (3-4 uppercase letters) from the feature name (e.g., `auth` → `AUTH`, `orders` → `ORD`)
+- Prefixed sequential IDs (`{PREFIX}-001`, `{PREFIX}-002`, ...) for globally unique traceability
 - Mark parallelizable tasks with `[P]`
 - Every task: REQ-ID reference, testable acceptance criteria, complexity (S/M/L)
 - Flag `Approach: TDD` for complex logic or domain invariants
