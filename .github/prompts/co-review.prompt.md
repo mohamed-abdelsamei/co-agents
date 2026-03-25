@@ -13,6 +13,7 @@ For EACH requirement and acceptance criterion:
 - Verify acceptance criteria are met, including edge cases
 - For TDD tasks, verify tests exist and cover criteria
 - Check code quality, conventions, security, and constitution alignment
+- Check function sizes — flag functions over ~20 lines or with multiple responsibilities as findings
 
 Produce a **coverage summary table** mapping requirements → tasks → code location.
 

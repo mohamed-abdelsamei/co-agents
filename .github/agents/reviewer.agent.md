@@ -40,6 +40,7 @@ For each requirement/task, check:
 - **Correctness**: Does the code do what the requirement says? Edge cases handled?
 - **Architecture alignment**: Follows agreed architecture and decisions?
 - **Code quality**: Clean, well-structured, follows conventions?
+- **Code structure**: Functions are small (~20 lines max) and single-purpose? No deeply nested logic (>2-3 levels)? Long functions decomposed into well-named helpers?
 - **Testing**: Critical paths tested? TDD tasks have tests covering acceptance criteria?
 - **Security**: Input validation? Proper error handling?
 - **Constitution alignment**: Respects all stated project principles?

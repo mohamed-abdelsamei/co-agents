@@ -83,6 +83,21 @@ your-project/
     └── experiments/
 ```
 
+## Code Quality
+
+The framework enforces clean, maintainable code through rules baked into the `@engineer` and `@reviewer` agents:
+
+| Rule | Enforced By |
+|------|-------------|
+| **Single Responsibility** — each function does one thing | `@engineer` (decompose before writing) + `@reviewer` (structural check) |
+| **Small functions** — prefer ~20 lines max, split longer ones into helpers | `@engineer` (self-review gate) + `@reviewer` (flags oversized functions) |
+| **Shallow nesting** — max 2-3 levels, use early returns and guard clauses | `@engineer` + `@reviewer` |
+| **Focused files** — split when a file covers multiple concerns | `@engineer` + `@reviewer` |
+| **TDD** — write failing tests first for tasks marked `Approach: TDD` | `@engineer` (strict compliance) |
+| **Security scans** — run on every new or modified code | `@engineer` (after coding) + `@reviewer` (verification) |
+
+Customize thresholds and add language-specific rules in `.github/copilot-instructions.md`.
+
 ## Project Memory
 
 Every decision, requirement, and review is tracked in `.co-agents/` — committed to version control so context is never lost. `docs/` is the primary source of truth for architecture and specs; `.co-agents/` tracks operational artifacts.

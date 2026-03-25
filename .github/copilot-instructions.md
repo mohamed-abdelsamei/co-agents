@@ -76,4 +76,7 @@ Follow idiomatic patterns for each language. Prefer strong typing and null safet
 - Run security scans on new or modified code
 - Write tests for critical paths; use TDD for complex logic
 - Infrastructure stacks should have assertion tests
-- Keep functions focused and files well-organized
+- **Single Responsibility**: Each function/method does one thing — if you need a comment to explain a section, extract it into a named function
+- **Small functions**: Prefer functions under ~20 lines; split longer ones into well-named helpers
+- **Shallow nesting**: Max 2-3 levels of indentation — use early returns, guard clauses, or helper functions to flatten logic
+- **Focused files**: Split files when they cover multiple unrelated concerns
