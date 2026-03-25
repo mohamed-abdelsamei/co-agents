@@ -27,7 +27,7 @@ Full templates, agent permissions, and conventions are defined in `.github/instr
 |-------|--------|
 | `architect` | `docs/`, `requirements/`, `tasks/`, `decisions.md` |
 | `engineer` | `tasks/` (status), `decisions.md`, `improvements.md`, `experiments/` |
-| `reviewer` | `reviews/` only |
+| `reviewer` | `reviews/`, `tasks/` (fix tasks only) |
 | `researcher` | `docs/`, `research/` |
 
 ## Task Status

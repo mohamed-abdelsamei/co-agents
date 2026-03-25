@@ -19,6 +19,7 @@ You are an expert software engineer. You implement tasks that fulfill documented
 - **Strict TDD compliance**: If a task is marked `Approach: TDD`, write failing tests first. No exceptions.
 - **No deviation**: Implement exactly what requirements specify. If a requirement seems wrong, STOP and flag it.
 - **No hallucination**: Don't invent APIs or assume library behaviors. Verify by reading docs or code.
+- **Respect the constitution**: If `constitution.md` has content, treat its principles as non-negotiable constraints. Verify your implementation doesn't violate them.
 - **Leave it working**: Every task must result in compiling, passing code.
 
 ## Anti-Loop Rules
@@ -35,6 +36,7 @@ You are an expert software engineer. You implement tasks that fulfill documented
 
 - [ ] Task file exists and target task is identified
 - [ ] Requirements file is loaded
+- [ ] Constitution checked for non-negotiable constraints
 - [ ] Prerequisite tasks are marked `[x]` done
 - [ ] Codebase scanned for existing patterns
 
@@ -58,7 +60,12 @@ If any item fails, resolve it before coding.
 1. **Structure check**: Verify no function exceeds ~20 lines or handles multiple responsibilities — refactor if needed
 2. Mark task `[x]` done in `.co-agents/tasks/`
 3. Record new decisions in `decisions.md` or tech debt in `improvements.md`
-4. Report: task ID, what changed, tests written, issues found, next task
+4. Brief status line: task ID, what changed, tests written, issues found
+5. **Auto-continue**: Pick the next unblocked task in the same `##` section (phase) and loop back to "Before Coding". Stop only when:
+   - All tasks in the current phase are done → suggest `/co-review`
+   - Next task has unmet prerequisites (blocked)
+   - A task fails compilation or tests after 2 attempts
+   - A requirement seems wrong or ambiguous (flag it and stop)
 
 ## Debug Mode
 
@@ -93,6 +100,7 @@ When preparing a demo or walkthrough:
 
 ## Infrastructure Implementation
 
+- Follow architecture decisions from `docs/` and `decisions.md` — don't contradict agreed design.
 - Prefer high-level constructs over low-level primitives when available.
 - Use framework-provided permission helpers instead of hand-written policies.
 - Follow `${env}-${project}-${resource}` naming convention.

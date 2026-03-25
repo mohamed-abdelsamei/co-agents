@@ -24,7 +24,7 @@ Then:
 |-------|------|
 | `@architect` | Requirements, architecture, infra design, task planning, strategic advice |
 | `@engineer` | Implementation, debugging, infrastructure-as-code, TDD, experiments, demos |
-| `@reviewer` | Code review, consistency analysis |
+| `@reviewer` | Code review, consistency analysis, fix task generation |
 | `@researcher` | Research, comparisons, documentation |
 
 ## Workflow
@@ -94,9 +94,32 @@ The framework enforces clean, maintainable code through rules baked into the `@e
 | **Shallow nesting** — max 2-3 levels, use early returns and guard clauses | `@engineer` + `@reviewer` |
 | **Focused files** — split when a file covers multiple concerns | `@engineer` + `@reviewer` |
 | **TDD** — write failing tests first for tasks marked `Approach: TDD` | `@engineer` (strict compliance) |
+| **Constitution enforcement** — principles from `constitution.md` are non-negotiable | `@engineer` (checks before coding) + `@reviewer` (alignment check) |
 | **Security scans** — run on every new or modified code | `@engineer` (after coding) + `@reviewer` (verification) |
 
 Customize thresholds and add language-specific rules in `.github/copilot-instructions.md`.
+
+## Auto-Continue
+
+The `@engineer` implements tasks continuously without stopping between each one. After completing a task, it automatically picks the next unblocked task in the same phase (`##` section in the task file). It only stops when:
+
+- All tasks in the phase are done (suggests `/co-review`)
+- Next task is blocked by unmet prerequisites
+- A task fails compilation/tests after 2 attempts
+- A requirement is ambiguous
+
+This means you can run `/co-implement all auth tasks` and walk away — the engineer will work through the entire phase autonomously.
+
+## Agent Feedback Loops
+
+Agents share context through `.co-agents/` so nothing falls through the cracks:
+
+| Loop | How It Works |
+|------|--------------|
+| **Tech debt → Planning** | `@engineer` logs tech debt in `improvements.md` → `@architect` reads it during `/co-plan` |
+| **Review → Fix tasks** | `@reviewer` appends fix tasks directly to the task file → `/co-implement` picks them up |
+| **Review prerequisites** | `/co-review` verifies tasks are done before reviewing — won't run on unimplemented code |
+| **Infra alignment** | `@engineer` follows architecture decisions from `docs/` and `decisions.md` |
 
 ## Project Memory
 

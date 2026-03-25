@@ -6,6 +6,10 @@ argument-hint: "Which feature or area to review (e.g., 'auth module' or 'all')"
 
 The user wants to review: **$INPUT**
 
+## Precondition
+
+Tasks MUST exist in `.co-agents/tasks/` with at least one task marked `[x]` done. If no tasks exist, stop and suggest `/co-plan`. If no tasks are done, stop and suggest `/co-implement`.
+
 ## What to Check
 
 For EACH requirement and acceptance criterion:
@@ -27,7 +31,7 @@ A structured review report saved to `.co-agents/reviews/{feature}-review.md`. If
 
 ## Scope Guard
 
-Read-only. Do not modify source code or fix bugs. If fixes are needed, produce a fix task list and suggest `/co-implement`.
+Read-only. Do not modify source code or fix bugs. If fixes are needed, append fix tasks to the existing `.co-agents/tasks/{feature}-tasks.md` file (preserving completed tasks) and suggest `/co-implement`.
 
 ## Done When
 

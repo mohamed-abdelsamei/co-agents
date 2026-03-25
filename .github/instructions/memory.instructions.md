@@ -33,9 +33,9 @@ applyTo: ".co-agents/**"
 
 | Agent | Reads | Writes |
 |-------|-------|--------|
-| **architect** | `docs/`, constitution, decisions, research/, requirements/ | `docs/`, requirements/, tasks/, decisions |
+| **architect** | `docs/`, constitution, decisions, improvements, research/, requirements/ | `docs/`, requirements/, tasks/, decisions |
 | **engineer** | `docs/`, constitution, decisions, requirements/, tasks/ | tasks/ (status), decisions, improvements, experiments/ |
-| **reviewer** | `docs/`, constitution, decisions, requirements/, tasks/ | reviews/ |
+| **reviewer** | `docs/`, constitution, decisions, requirements/, tasks/ | reviews/, tasks/ (fix tasks only) |
 | **researcher** | `docs/`, constitution, decisions, research/ | `docs/` (primary), research/ (index) |
 
 **Special case**: `/co-init` writes `architecture.md`, `decisions.md` (inferred), and `improvements.md`.

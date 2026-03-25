@@ -20,7 +20,7 @@ Requirements MUST exist in `.co-agents/requirements/`. If they don't, stop and t
 
 ## Task Rules
 
-- Organize by **user story**, not technical layer
+- Organize by **user story**, not technical layer — each `##` heading in the task file defines a **phase** that the engineer auto-continues through
 - Choose a short prefix (3-4 uppercase letters) from the feature name (e.g., `auth` → `AUTH`, `orders` → `ORD`)
 - Prefixed sequential IDs (`{PREFIX}-001`, `{PREFIX}-002`, ...) for globally unique traceability
 - Mark parallelizable tasks with `[P]`

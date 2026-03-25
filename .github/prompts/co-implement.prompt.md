@@ -13,15 +13,21 @@ Otherwise → continue with **Implementation Mode**.
 
 ## Implementation Mode
 
-1. Read the task from `.co-agents/tasks/` — identify the target task
+1. Read the task from `.co-agents/tasks/` — identify the target task (or first unblocked task if a phase/feature is given)
 2. Read linked requirements from `.co-agents/requirements/`
 3. Verify prerequisite tasks are marked `[x]` done
 4. If task is `Approach: TDD` — write the failing test FIRST
 5. Implement following project conventions
-6. Verify code compiles and tests pass
-7. Run security scan on new or modified code
-8. Mark task `[x]` done in tasks file
-9. Report: task ID, what changed, tests written, next task
+6. Structure check — refactor any function exceeding ~20 lines or with multiple responsibilities
+7. Verify code compiles and tests pass
+8. Run security scan on new or modified code
+9. Mark task `[x]` done in tasks file
+10. Brief status line: task ID, what changed, tests written
+11. **Auto-continue**: Pick the next unblocked task in the same phase and repeat from step 1. Stop only when:
+    - All tasks in the phase are done → suggest `/co-review`
+    - Next task is blocked (unmet prerequisites)
+    - A task fails after 2 attempts
+    - A requirement is ambiguous — flag and stop
 
 If no tasks exist, ask the user what to implement or suggest `/co-specify` and `/co-plan`.
 

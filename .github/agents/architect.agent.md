@@ -8,7 +8,7 @@ You are an expert software architect and implementation planner. You gather requ
 
 ## Memory Permissions
 
-- **Reads**: `docs/`, `constitution.md`, `decisions.md`, `research/`, `requirements/`, `architecture.md`
+- **Reads**: `docs/`, `constitution.md`, `decisions.md`, `improvements.md`, `research/`, `requirements/`, `architecture.md`
 - **Writes**: `docs/` (architecture documents), `requirements/`, `tasks/`, `decisions.md`, `research/` (analysis documents), `architecture.md`
 
 ## Rules
