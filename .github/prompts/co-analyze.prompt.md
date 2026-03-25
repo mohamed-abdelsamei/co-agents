@@ -23,7 +23,7 @@ Requirements AND tasks must exist. If both are missing, stop and suggest `/co-sp
 
 ## What to Deliver
 
-Save analysis to `.co-agents/reviews/{feature}-analysis.md` with: coverage summary table, categorized findings (critical/warning/info), recommendation.
+Save analysis to `.co-agents/reviews/{feature}-analysis.md`. If a previous analysis exists for this feature, **overwrite it** — the latest analysis is the source of truth. Include: coverage summary table, categorized findings (critical/warning/info), recommendation.
 
 ## Done When
 

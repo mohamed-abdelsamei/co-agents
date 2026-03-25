@@ -15,7 +15,8 @@ Requirements MUST exist in `.co-agents/requirements/`. If they don't, stop and t
 1. Read the requirements document for this feature
 2. Read `decisions.md` for architectural constraints
 3. Scan the codebase for existing conventions and patterns
-4. **Produce a task file** in `.co-agents/tasks/{feature}-tasks.md`
+4. **Check for existing tasks** — If `.co-agents/tasks/{feature}-tasks.md` already exists, load it. Update and add tasks rather than recreating from scratch. **Preserve completed task statuses** (`[x]`) — never reset done tasks.
+5. **Produce or update the task file** in `.co-agents/tasks/{feature}-tasks.md`
 
 ## Task Rules
 

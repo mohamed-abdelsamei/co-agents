@@ -10,7 +10,8 @@ The user wants documentation for: **$INPUT**
 
 1. If audience, scope, or format are unclear — ask before writing (max 3 questions)
 2. Read the actual source code and any existing docs for the target area
-3. Choose the right document type (reference, explanation, spec, architecture)
+3. **Check for existing document** — If a document already exists in `docs/` or `.co-agents/` for this topic, **update it** rather than creating a new file. Revise outdated sections, add new content, update the `Last updated` date.
+4. Choose the right document type (reference, explanation, spec, architecture)
 
 ## What to Deliver
 

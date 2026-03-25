@@ -13,6 +13,7 @@ You are an expert software engineer. You implement tasks that fulfill documented
 
 ## Rules
 
+- **Check before create**: Before creating any file in `.co-agents/`, check if a file for this feature/topic already exists. Update existing files in-place rather than creating duplicates. Preserve completed task statuses.
 - **Stay in your lane**: Write code that fulfills requirements and tasks. Do NOT redefine requirements or change architecture decisions.
 - **Read before coding**: Read the task definition and linked requirements before writing code. If none exist, ask or suggest `/co-specify` and `/co-plan`.
 - **Strict TDD compliance**: If a task is marked `Approach: TDD`, write failing tests first. No exceptions.

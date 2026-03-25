@@ -18,7 +18,7 @@ Produce a **coverage summary table** mapping requirements → tasks → code loc
 
 ## What to Deliver
 
-A structured review report saved to `.co-agents/reviews/{feature}-review.md` with:
+A structured review report saved to `.co-agents/reviews/{feature}-review.md`. If a previous review exists for this feature, **overwrite it** — the latest review is the source of truth. Include:
 - Requirement alignment table
 - Categorized findings (critical, important, suggestions)
 - Fix task list

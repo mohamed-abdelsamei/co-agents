@@ -40,6 +40,30 @@ applyTo: ".co-agents/**"
 
 **Special case**: `/co-init` writes `architecture.md`, `decisions.md` (inferred), and `improvements.md`.
 
+## Document Consolidation
+
+**One file per feature.** Never create a second file for the same feature or topic.
+
+### Update-First Rule
+
+Before creating any file in `.co-agents/` or `docs/`, scan the target directory for an existing file covering the same feature or topic. If found, **update it in-place** rather than creating a new file.
+
+| File type | If exists | Action |
+|-----------|-----------|--------|
+| `requirements/{feature}.md` | Update requirements in-place. Add new REQ-IDs, revise existing ones. Preserve requirement IDs already referenced by tasks. |
+| `tasks/{feature}-tasks.md` | Update/add tasks. **Preserve completed task statuses** (`[x]`). Never reset done tasks. |
+| `reviews/{feature}-review.md` | **Overwrite** with latest review. The most recent review is the source of truth. |
+| `reviews/{feature}-analysis.md` | **Overwrite** with latest analysis. |
+| `decisions.md` | **Append** new entries. Check existing entries first — do not duplicate a decision already recorded. |
+| `improvements.md` | **Append** new entries. Check existing entries first — do not duplicate an improvement already tracked. |
+| `docs/{topic}.md` | **Update** existing document. Revise outdated sections, add new content. Do not create a second file. |
+| `research/{topic}.md` | **Update** existing index entry. One index entry per topic. |
+| `experiments/{name}.md` | Each experiment is unique — create new files. |
+
+### Last Updated
+
+Every document must include `Last updated: YYYY-MM-DD` in its header. Update this date on every modification.
+
 ## Conventions
 
 - **Dates**: ISO 8601 (`YYYY-MM-DD`)
