@@ -1,6 +1,6 @@
 # Co-Agents
 
-A structured SDLC workflow for GitHub Copilot — 4 specialized agents, 13 prompts, and a persistent project memory system that turns Copilot into a full development team.
+A structured SDLC workflow for GitHub Copilot — 4 specialized agents, 15 prompts, and a persistent project memory system that turns Copilot into a full development team.
 
 ## Quick Start
 
@@ -33,7 +33,7 @@ Then:
 /co-init → /co-constitution → /co-specify → /co-clarify → /co-plan → /co-analyze → /co-implement → /co-review
 ```
 
-Research (`/co-research`), documentation (`/co-document`), and advisory (`/co-advise`) can be used at any phase.
+Research (`/co-research`), documentation (`/co-document`), advisory (`/co-advise`), and assessment (`/co-assess`) can be used at any phase.
 
 **Experiment fast-track:**
 
@@ -51,9 +51,11 @@ Research (`/co-research`), documentation (`/co-document`), and advisory (`/co-ad
 | Resolve ambiguity | `/co-clarify` | `@architect` |
 | Plan & break into tasks | `/co-plan` | `@architect` |
 | Strategic advice | `/co-advise` | `@architect` |
+| Assess existing feature | `/co-assess` | `@architect` |
 | Pre-build consistency check | `/co-analyze` | `@reviewer` |
 | Review implementation | `/co-review` | `@reviewer` |
 | Implement features / debug | `/co-implement` | `@engineer` |
+| Report & fix a bug | `/co-bug` | `@engineer` |
 | Quick experiment | `/co-experiment` | `@engineer` |
 | Prepare a demo | `/co-demo` | `@engineer` |
 | Research a topic | `/co-research` | `@researcher` |
@@ -65,7 +67,7 @@ Research (`/co-research`), documentation (`/co-document`), and advisory (`/co-ad
 your-project/
 ├── .github/
 │   ├── agents/           4 agent definitions
-│   ├── prompts/          13 prompt workflows
+│   ├── prompts/          15 prompt workflows
 │   ├── instructions/     Memory format standards + pre-check rules
 │   ├── skills/           Workflow skills (co-memory)
 │   └── copilot-instructions.md

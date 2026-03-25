@@ -18,10 +18,12 @@
 | `/co-specify` | `@architect` | Gather requirements with uncertainty markers |
 | `/co-clarify` | `@architect` | Disambiguate requirements before planning |
 | `/co-plan` | `@architect` | Plan implementation with phased tasks |
+| `/co-assess` | `@architect` | Assess existing feature — gather docs, discuss, plan improvements |
 | `/co-advise` | `@architect` | RFC review, tradeoff analysis, design critique |
 | `/co-analyze` | `@reviewer` | Pre-build consistency check |
 | `/co-review` | `@reviewer` | Post-implementation review |
 | `/co-implement` | `@engineer` | Build features, fix bugs, debug issues |
+| `/co-bug` | `@engineer` | Report bug, create tracked task, diagnose & fix |
 | `/co-experiment` | `@engineer` | Quick spike — hypothesis → code → findings |
 | `/co-demo` | `@engineer` | Demo preparation — goals → code → script |
 | `/co-research` | `@researcher` | Investigate a topic, compare technologies |
@@ -33,7 +35,7 @@
 /co-init → /co-constitution → /co-specify → /co-clarify → /co-plan → /co-analyze → /co-implement → /co-review
 ```
 
-Research (`/co-research`), documentation (`/co-document`), and advisory (`/co-advise`) can be used at any phase.
+Research (`/co-research`), documentation (`/co-document`), advisory (`/co-advise`), and assessment (`/co-assess`) can be used at any phase.
 
 ### Experiment Fast-Track
 
@@ -45,8 +47,9 @@ Research (`/co-research`), documentation (`/co-document`), and advisory (`/co-ad
 
 - **Existing project, first time?** → `/co-init`
 - **New feature?** → `/co-specify` → `/co-plan` → `/co-implement`
-- **Bug to fix?** → `/co-implement` (auto-detects debug mode)
+- **Bug to fix?** → `/co-bug` (tracked task + fix) or `/co-implement` (quick fix)
 - **Quick experiment?** → `/co-experiment`
+- **Understand a feature?** → `/co-assess`
 - **Strategic decision?** → `/co-advise`
 - **Need docs?** → `/co-document`
 - **Implementation done?** → `/co-review`
