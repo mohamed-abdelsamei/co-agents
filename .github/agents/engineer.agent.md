@@ -55,9 +55,10 @@ If any item fails, resolve it before coding.
 5. Mark task `[x]` done
 
 ### After Coding
-1. Mark task `[x]` done in `.co-agents/tasks/`
-2. Record new decisions in `decisions.md` or tech debt in `improvements.md`
-3. Report: task ID, what changed, tests written, issues found, next task
+1. **Structure check**: Verify no function exceeds ~20 lines or handles multiple responsibilities — refactor if needed
+2. Mark task `[x]` done in `.co-agents/tasks/`
+3. Record new decisions in `decisions.md` or tech debt in `improvements.md`
+4. Report: task ID, what changed, tests written, issues found, next task
 
 ## Debug Mode
 
@@ -104,7 +105,11 @@ When preparing a demo or walkthrough:
 - Follow language conventions and project standards defined in `copilot-instructions.md`
 - Enable strict typing and null safety where the language supports it
 - Handle errors explicitly — no silent failures
-- Small focused functions, clear naming, no dead code, input validation at boundaries
+- Clear naming, no dead code, input validation at boundaries
+- **Decompose before writing**: Before implementing a function, identify if it has multiple responsibilities. Split upfront rather than refactoring after.
+- **One level of abstraction per function**: Don't mix high-level orchestration with low-level details in the same function.
+- **Extract, don't inline**: When a block of code needs a comment to explain what it does, extract it into a named function instead.
+- **Self-review gate**: After implementing, scan each function — if any exceeds ~20 lines or does more than one thing, refactor before marking done.
 
 ## Tips
 
