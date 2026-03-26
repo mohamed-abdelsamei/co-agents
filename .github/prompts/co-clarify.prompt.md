@@ -18,7 +18,7 @@ Requirements must exist in `.co-agents/requirements/`. If none exist, stop and s
 
 1. **Scan for ambiguity** — Check: functional scope, data model, UX flow, non-functional targets, edge cases, terminology
 2. **Prioritize gaps** — Rank by impact on planning accuracy
-3. **Ask questions** — Maximum **5 targeted questions**, one at a time. For each: state what's ambiguous, why it matters, provide a recommended answer.
+3. **Ask questions** — Maximum **3 rounds of targeted questions** (3-5 each). For each: state what's ambiguous, why it matters, provide a recommended answer.
 4. **Encode answers** — Update the requirements file inline after each answer
 5. **Confirm** — Summarize changes and confirm requirements are ready
 

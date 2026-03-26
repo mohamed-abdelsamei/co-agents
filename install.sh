@@ -57,10 +57,11 @@ ${BOLD}Options:${NC}
 
 ${BOLD}What gets installed:${NC}
   .github/agents/           4 custom agents (architect, engineer, reviewer, researcher)
-  .github/prompts/          15 prompt files (/co-specify, /co-plan, /co-implement, etc.)
-  .github/instructions/     Project memory format standards + before-acting rules
+  .github/prompts/          16 prompt files (/co-specify, /co-plan, /co-implement, etc.)
+  .github/instructions/     Shared standards (agent, code quality, memory, templates)
   .github/skills/           Workflow skills (co-memory)
   .github/copilot-instructions.md   Main copilot configuration
+  docs/                     Documentation skeleton with README
   .co-agents/               Project memory skeleton (constitution, decisions, etc.)
 
 ${BOLD}Examples:${NC}
@@ -234,6 +235,14 @@ done
 
 log "Installing copilot-instructions.md..."
 copy_file "$SOURCE_GITHUB/copilot-instructions.md" "$TARGET/.github/copilot-instructions.md"
+
+# ─── Docs Skeleton ────────────────────────────────────────────────────────────
+
+log "Setting up docs/..."
+ensure_dir "$TARGET/docs"
+if [[ -f "$SCRIPT_DIR/docs/README.md" ]]; then
+  copy_file "$SCRIPT_DIR/docs/README.md" "$TARGET/docs/README.md"
+fi
 
 # ─── Project Memory Skeleton ─────────────────────────────────────────────────
 

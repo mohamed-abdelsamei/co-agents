@@ -12,7 +12,7 @@ Start with discovery questions — do NOT jump to producing a requirements docum
 
 ## Workflow
 
-1. **Check for existing requirements** — Scan `.co-agents/requirements/` for an existing file for this feature. If found, load it and treat this as a **requirements update session**: present the current requirements, ask what changed, and update in-place. Preserve existing requirement IDs that are already referenced by tasks. If not found, proceed with new requirements discovery.
+1. **Check for existing requirements** — Scan `.co-agents/requirements/` for an existing file for this feature. If found, load it and treat this as a **requirements update session**: present the current requirements, ask what changed, and update in-place. Preserve existing requirement IDs that are still valid. Mark dropped requirements as `obsolete` with a reason (don't delete — retire the ID). If requirements were rewritten, apply cascade rules: flag dependent tasks for re-verification. If not found, proceed with new requirements discovery.
 2. **Ask first** — Structured questions in batches of 3-5 (problem, scope, constraints, preferences, quality). Synthesize vague inputs into clarifying questions.
 2. **Surface gaps** — Proactively raise what the user might be missing: security, error handling, edge cases, observability, deployment.
 3. **Delegate research** — If a technology comparison is needed, delegate to `@researcher`.

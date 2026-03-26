@@ -13,9 +13,10 @@ Otherwise → continue with **Implementation Mode**.
 
 ## Implementation Mode
 
-1. Read the task from `.co-agents/tasks/` — identify the target task (or first unblocked task if a phase/feature is given)
-2. Read linked requirements from `.co-agents/requirements/`
-3. Verify prerequisite tasks are marked `[x]` done
+1. Read the task from `.co-agents/tasks/` — identify the target task (or first unblocked task if a phase/feature is given). **Skip** tasks marked `[obsolete]`.
+2. If task is marked `[!]` (needs re-verification) — read the revised requirement, check if existing implementation still matches. If valid, mark `[x]` and move on. If not, re-implement.
+3. Read linked requirements from `.co-agents/requirements/` — skip any marked `obsolete`
+4. Verify prerequisite tasks are marked `[x]` done
 4. If task is `Approach: TDD` — write the failing test FIRST
 5. Implement following project conventions
 6. Structure check — refactor any function exceeding ~20 lines or with multiple responsibilities
@@ -29,7 +30,7 @@ Otherwise → continue with **Implementation Mode**.
     - A task fails after 2 attempts
     - A requirement is ambiguous — flag and stop
 
-If no tasks exist, ask the user what to implement or suggest `/co-specify` and `/co-plan`.
+If no tasks exist, stop and suggest `/co-specify` → `/co-plan` first.
 
 ## Debug Mode
 

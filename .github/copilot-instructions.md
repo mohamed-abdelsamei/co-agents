@@ -1,52 +1,14 @@
 # Project Guidelines
 
-## Agent Team
+## Agent Team & Prompts
 
-| Agent | Role |
-|-------|------|
-| `@architect` | Requirements, architecture, infra design, task planning, strategic advice |
-| `@engineer` | Implementation, debugging, infrastructure-as-code, TDD, experiments, demos |
-| `@reviewer` | Code review, consistency analysis |
-| `@researcher` | Research, comparisons, documentation |
-
-## Prompts
-
-| Prompt | Agent | Purpose |
-|--------|-------|---------|
-| `/co-init` | `@architect` | Scan existing codebase, populate project memory |
-| `/co-constitution` | `@architect` | Define project principles and quality gates |
-| `/co-specify` | `@architect` | Gather requirements with uncertainty markers |
-| `/co-clarify` | `@architect` | Disambiguate requirements before planning |
-| `/co-plan` | `@architect` | Plan implementation with phased tasks |
-| `/co-assess` | `@architect` | Assess existing feature — gather docs, discuss, plan improvements |
-| `/co-advise` | `@architect` | RFC review, tradeoff analysis, design critique |
-| `/co-analyze` | `@reviewer` | Pre-build consistency check |
-| `/co-review` | `@reviewer` | Post-implementation review |
-| `/co-implement` | `@engineer` | Build features, fix bugs, debug issues |
-| `/co-bug` | `@engineer` | Report bug, create tracked task, diagnose & fix |
-| `/co-experiment` | `@engineer` | Quick spike — hypothesis → code → findings |
-| `/co-demo` | `@engineer` | Demo preparation — goals → code → script |
-| `/co-research` | `@researcher` | Investigate a topic, compare technologies |
-| `/co-document` | `@researcher` | Write reference docs, READMEs, specs |
-
-## SDLC Flow
-
-```
-/co-init → /co-constitution → /co-specify → /co-clarify → /co-plan → /co-analyze → /co-implement → /co-review
-```
-
-Research (`/co-research`), documentation (`/co-document`), advisory (`/co-advise`), and assessment (`/co-assess`) can be used at any phase.
-
-### Experiment Fast-Track
-
-```
-/co-experiment → (success?) → /co-specify → full SDLC
-```
+See `README.md` for the full agent team, prompt reference, and SDLC workflow.
 
 ## Routing
 
 - **Existing project, first time?** → `/co-init`
 - **New feature?** → `/co-specify` → `/co-plan` → `/co-implement`
+- **Refine existing feature?** → `/co-refine` (rewrite requirements, prune tasks, sync artifacts)
 - **Bug to fix?** → `/co-bug` (tracked task + fix) or `/co-implement` (quick fix)
 - **Quick experiment?** → `/co-experiment`
 - **Understand a feature?** → `/co-assess`
@@ -64,7 +26,11 @@ Research (`/co-research`), documentation (`/co-document`), advisory (`/co-advise
 
 ## Language & Stack Focus
 
-<!-- Customize for your project after installation -->
+<!-- Customize for your project after installation. Examples:
+- **Languages**: TypeScript, Python
+- **Frameworks**: Next.js, FastAPI
+- **Infrastructure**: AWS CDK, Docker
+-->
 - **Languages**: (edit after install)
 - **Frameworks**: (edit after install)
 - **Infrastructure**: (edit after install)
@@ -73,10 +39,4 @@ Follow idiomatic patterns for each language. Prefer strong typing and null safet
 
 ## Code Quality
 
-- Run security scans on new or modified code
-- Write tests for critical paths; use TDD for complex logic
-- Infrastructure stacks should have assertion tests
-- **Single Responsibility**: Each function/method does one thing — if you need a comment to explain a section, extract it into a named function
-- **Small functions**: Prefer functions under ~20 lines; split longer ones into well-named helpers
-- **Shallow nesting**: Max 2-3 levels of indentation — use early returns, guard clauses, or helper functions to flatten logic
-- **Focused files**: Split files when they cover multiple unrelated concerns
+Standards are defined in `.github/instructions/code-quality.instructions.md`. Customize thresholds and add language-specific rules below.

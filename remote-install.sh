@@ -55,6 +55,8 @@ if [[ ${#ARGS[@]} -eq 0 ]]; then
   echo "  --force            Overwrite existing files"
   echo "  --no-memory        Skip .co-agents/ skeleton"
   echo "  --help             Show install.sh help"
+  echo ""
+  echo "More info: https://github.com/mohamed-abdelsamei/co-agents"
   exit 0
 fi
 

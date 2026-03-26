@@ -24,7 +24,7 @@ ONLY files inside `.co-agents/`:
 3. **Infer architecture** — Synthesize into components, data flow, integrations. Write to `architecture.md`.
 4. **Infer decisions** — Extract technology choices with rationale. Write to `decisions.md` with status `inferred`.
 5. **Identify improvements** — Note tech debt, missing tests, outdated deps, inconsistencies. Write to `improvements.md`.
-6. **Ask 3-5 clarifying questions** — Things not determinable from code (business context, deployment targets, team preferences).
+6. **Ask up to 3 rounds of clarifying questions** (3-5 each) — Things not determinable from code (business context, deployment targets, team preferences).
 7. **Summarize** — Report what was discovered and what gaps remain.
 
 ## Rules

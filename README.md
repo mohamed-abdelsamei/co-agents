@@ -1,6 +1,6 @@
 # Co-Agents
 
-A structured SDLC workflow for GitHub Copilot — 4 specialized agents, 15 prompts, and a persistent project memory system that turns Copilot into a full development team.
+A structured SDLC workflow for GitHub Copilot — 4 specialized agents, 16 prompts, and a persistent project memory system that turns Copilot into a full development team.
 
 ## Quick Start
 
@@ -35,6 +35,12 @@ Then:
 
 Research (`/co-research`), documentation (`/co-document`), advisory (`/co-advise`), and assessment (`/co-assess`) can be used at any phase.
 
+**Refinement loop:**
+
+```
+/co-refine → /co-analyze → /co-implement → /co-review
+```
+
 **Experiment fast-track:**
 
 ```
@@ -52,6 +58,7 @@ Research (`/co-research`), documentation (`/co-document`), advisory (`/co-advise
 | Plan & break into tasks | `/co-plan` | `@architect` |
 | Strategic advice | `/co-advise` | `@architect` |
 | Assess existing feature | `/co-assess` | `@architect` |
+| Refine & clean a feature | `/co-refine` | `@architect` |
 | Pre-build consistency check | `/co-analyze` | `@reviewer` |
 | Review implementation | `/co-review` | `@reviewer` |
 | Implement features / debug | `/co-implement` | `@engineer` |
@@ -67,10 +74,12 @@ Research (`/co-research`), documentation (`/co-document`), advisory (`/co-advise
 your-project/
 ├── .github/
 │   ├── agents/           4 agent definitions
-│   ├── prompts/          15 prompt workflows
-│   ├── instructions/     Memory format standards + pre-check rules
+│   ├── prompts/          16 prompt workflows
+│   ├── instructions/     Shared standards (agent, code quality, memory, templates)
 │   ├── skills/           Workflow skills (co-memory)
 │   └── copilot-instructions.md
+├── docs/                 Primary source of truth (architecture, research, specs)
+│   └── README.md
 └── .co-agents/           Project memory skeleton
     ├── constitution.md
     ├── decisions.md
@@ -120,6 +129,7 @@ Agents share context through `.co-agents/` so nothing falls through the cracks:
 | **Review → Fix tasks** | `@reviewer` appends fix tasks directly to the task file → `/co-implement` picks them up |
 | **Review prerequisites** | `/co-review` verifies tasks are done before reviewing — won't run on unimplemented code |
 | **Infra alignment** | `@engineer` follows architecture decisions from `docs/` and `decisions.md` |
+| **Refinement cascade** | `/co-refine` rewrites requirements → marks affected tasks `[!]` (re-verify) or `[obsolete]` → `/co-implement` picks up clean plan |
 
 ## Project Memory
 
