@@ -1,6 +1,6 @@
 # Co-Agents
 
-A structured SDLC workflow for GitHub Copilot — 4 specialized agents, 10 prompts, and a persistent project memory system that turns Copilot into a full development team.
+A structured SDLC workflow for GitHub Copilot — 4 specialized agents, 11 prompts, and a persistent project memory system that turns Copilot into a full development team.
 
 ## Quick Start
 
@@ -29,7 +29,7 @@ Then:
 ## Workflow
 
 ```
-/co-init → /co-spec → /co-plan → /co-build → /co-review
+/co-setup or /co-init → /co-spec → /co-plan → /co-build → /co-review
 ```
 
 Research (`/co-research`), documentation (`/co-docs`), advisory (`/co-advise`), and infrastructure (`/co-deploy`) can be used at any phase.
@@ -50,6 +50,7 @@ Research (`/co-research`), documentation (`/co-docs`), advisory (`/co-advise`), 
 
 | What You Need | Prompt | Agent |
 |---------------|--------|-------|
+| Set up a new project — constitution + stack config | `/co-setup` | `@architect` |
 | Onboard existing project + define principles | `/co-init` | `@architect` |
 | Gather, clarify, or refine requirements | `/co-spec` | `@architect` |
 | Plan & break into tasks + consistency check | `/co-plan` | `@architect` |
@@ -67,7 +68,7 @@ Research (`/co-research`), documentation (`/co-docs`), advisory (`/co-advise`), 
 your-project/
 ├── .github/
 │   ├── agents/           4 agent definitions
-│   ├── prompts/          10 prompt workflows
+│   ├── prompts/          11 prompt workflows
 │   ├── instructions/     Shared standards (agent, code quality, memory, templates)
 │   ├── skills/           Workflow skills (co-memory)
 │   └── copilot-instructions.md

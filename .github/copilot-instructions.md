@@ -6,6 +6,7 @@ See `README.md` for the full agent team, prompt reference, and SDLC workflow.
 
 ## Routing
 
+- **New project from scratch?** → `/co-setup`
 - **Existing project, first time?** → `/co-init`
 - **New feature?** → `/co-spec` → `/co-plan` → `/co-build`
 - **Refine existing feature?** → `/co-spec` (detects existing requirements and switches to refine mode)

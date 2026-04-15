@@ -57,7 +57,7 @@ ${BOLD}Options:${NC}
 
 ${BOLD}What gets installed:${NC}
   .github/agents/           4 custom agents (architect, engineer, devops, researcher)
-  .github/prompts/          10 prompt files (/co-spec, /co-plan, /co-build, etc.)
+  .github/prompts/          11 prompt files (/co-setup, /co-spec, /co-plan, /co-build, etc.)
   .github/instructions/     Shared standards (agent, code quality, memory, templates)
   .github/skills/           Workflow skills (co-memory)
   .github/copilot-instructions.md   Main copilot configuration
