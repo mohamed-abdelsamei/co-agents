@@ -9,12 +9,12 @@ Agents scan `docs/` before every task. When `docs/` and `.co-agents/` disagree, 
 - Architecture documents and design specs
 - Research summaries and technology comparisons  
 - API references and guides
-- Any documentation produced by `@researcher` via `/co-research` or `/co-document`
+- Any documentation produced by `@researcher` via `/co-research` or `/co-docs`
 
 ## How it gets populated
 
 - `/co-research` — saves research summaries here
-- `/co-document` — saves reference docs, explanations, and specs here
+- `/co-docs` — saves reference docs, explanations, and specs here
 - `/co-advise` — saves tradeoff analyses here
 - Manual additions — add your own architecture docs, RFCs, or specs
 

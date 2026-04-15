@@ -7,14 +7,16 @@ See `README.md` for the full agent team, prompt reference, and SDLC workflow.
 ## Routing
 
 - **Existing project, first time?** → `/co-init`
-- **New feature?** → `/co-specify` → `/co-plan` → `/co-implement`
-- **Refine existing feature?** → `/co-refine` (rewrite requirements, prune tasks, sync artifacts)
-- **Bug to fix?** → `/co-bug` (tracked task + fix) or `/co-implement` (quick fix)
-- **Quick experiment?** → `/co-experiment`
-- **Understand a feature?** → `/co-assess`
+- **New feature?** → `/co-spec` → `/co-plan` → `/co-build`
+- **Refine existing feature?** → `/co-spec` (detects existing requirements and switches to refine mode)
+- **Bug to fix?** → `/co-fix` (tracked task + fix) or `/co-build` (quick fix)
+- **Quick experiment?** → `/co-build` (detects experiment/spike intent)
+- **Understand a feature?** → `/co-advise` (detects assessment intent)
 - **Strategic decision?** → `/co-advise`
-- **Need docs?** → `/co-document`
+- **Need docs?** → `/co-docs`
+- **Research a topic?** → `/co-research`
 - **Implementation done?** → `/co-review`
+- **Infrastructure / CI/CD?** → `/co-deploy`
 
 ## Docs Folder
 
@@ -26,12 +28,7 @@ See `README.md` for the full agent team, prompt reference, and SDLC workflow.
 
 ## Language & Stack Focus
 
-<!-- Customize for your project after installation. Examples:
-- **Languages**: TypeScript, Python
-- **Frameworks**: Next.js, FastAPI
-- **Infrastructure**: AWS CDK, Docker
--->
-- **Languages**: (edit after install)
+- **Languages**: TypeScript, Dart, Rust, Python
 - **Frameworks**: (edit after install)
 - **Infrastructure**: (edit after install)
 

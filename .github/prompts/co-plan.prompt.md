@@ -1,5 +1,5 @@
 ---
-description: "Plan implementation — break requirements into phased tasks with dependencies, acceptance criteria, and TDD markers."
+description: "Plan implementation — break requirements into phased tasks with dependencies, then verify consistency."
 agent: architect
 argument-hint: "Feature to plan (e.g., 'user authentication' or point to a requirements file)"
 ---
@@ -8,7 +8,7 @@ The user wants to plan: **$INPUT**
 
 ## Precondition
 
-Requirements MUST exist in `.co-agents/requirements/`. If they don't, stop and tell the user to run `/co-specify` first.
+Requirements MUST exist in `.co-agents/requirements/`. If they don't, stop and tell the user to run `/co-spec` first.
 
 ## Workflow
 
@@ -35,8 +35,19 @@ Requirements MUST exist in `.co-agents/requirements/`. If they don't, stop and t
 - Every requirement has at least one task covering it
 - Dependencies form a valid DAG (no cycles)
 
-End with a summary: total tasks, TDD count, parallel count, complexity distribution, suggested starting point.
+## Consistency Analysis (auto-runs after task generation)
+
+After producing the task file, automatically verify:
+1. Every REQ-ID has a corresponding task; every task references a valid REQ-ID
+2. Tasks don't contradict architectural decisions
+3. Requirements respect constitution principles
+4. No terminology drift, implicit assumptions, or circular dependencies
+5. Flag under-scoped or technically risky tasks
+
+If issues found, output analysis to `.co-agents/reviews/{feature}-analysis.md` and note them in the summary.
+
+End with a summary: total tasks, TDD count, parallel count, complexity distribution, consistency check result, suggested starting point.
 
 ## Done When
 
-Task file is saved. Then suggest `/co-analyze` to verify consistency, then `/co-implement` to start building.
+Task file is saved and consistency verified. Then suggest `/co-build` to start building.

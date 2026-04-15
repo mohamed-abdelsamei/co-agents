@@ -176,7 +176,7 @@ Complexity: **S** (single-file), **M** (multiple files), **L** (complex logic). 
 # {Feature} — Review Report
 
 **Date**: YYYY-MM-DD
-**Reviewer**: @reviewer
+**Reviewer**: @architect
 
 ## Summary
 
@@ -214,7 +214,7 @@ Complexity: **S** (single-file), **M** (multiple files), **L** (complex logic). 
 # {Feature} — Consistency Analysis
 
 **Date**: YYYY-MM-DD
-**Analyzer**: @reviewer
+**Analyzer**: @architect
 
 ## Coverage Summary
 

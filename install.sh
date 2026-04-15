@@ -56,8 +56,8 @@ ${BOLD}Options:${NC}
   --help        Show this help message
 
 ${BOLD}What gets installed:${NC}
-  .github/agents/           4 custom agents (architect, engineer, reviewer, researcher)
-  .github/prompts/          16 prompt files (/co-specify, /co-plan, /co-implement, etc.)
+  .github/agents/           4 custom agents (architect, engineer, devops, researcher)
+  .github/prompts/          10 prompt files (/co-spec, /co-plan, /co-build, etc.)
   .github/instructions/     Shared standards (agent, code quality, memory, templates)
   .github/skills/           Workflow skills (co-memory)
   .github/copilot-instructions.md   Main copilot configuration
@@ -72,8 +72,7 @@ ${BOLD}Examples:${NC}
 
 ${BOLD}After installation:${NC}
   1. Edit .github/copilot-instructions.md to match the project's stack
-  2. Run /co-init to scan the codebase and populate project memory
-  3. Run /co-constitution to define project principles
+  2. Run /co-init to scan the codebase, populate project memory, and define principles
 EOF
   exit 0
 }
@@ -292,7 +291,6 @@ else
   echo -e "${BOLD}Next steps:${NC}"
   echo "  1. cd $TARGET"
   echo "  2. Edit .github/copilot-instructions.md to match your project's stack"
-  echo "  3. Run /co-init to scan the codebase and populate project memory"
-  echo "  4. Run /co-constitution to define project principles"
+  echo "  2. Run /co-init to scan the codebase, populate project memory, and define principles"
   echo ""
 fi

@@ -19,8 +19,8 @@ The user wants to research: **$INPUT**
 
 ## Scope Guard
 
-Research only. Do not write implementation code or make architecture decisions. If the request implies those, complete the research and suggest `/co-specify` or `/co-plan`.
+Research only. Do not write implementation code or make architecture decisions. If the request implies those, complete the research and suggest `/co-spec` or `/co-plan`.
 
 ## Done When
 
-Research document is saved with findings, comparisons (if applicable), and a clear recommendation.
+Research document is saved with findings, comparisons (if applicable), and a clear recommendation. Suggest `/co-spec` if the research implies a feature, or `/co-advise` for strategic decisions.

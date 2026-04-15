@@ -1,5 +1,5 @@
 ---
-description: "Report a bug — creates a tracked bug task with reproduction steps, then hands off to @engineer for diagnosis and fix."
+description: "Report and fix a bug — creates a tracked task, diagnoses the issue, and applies a minimal fix with regression test."
 agent: engineer
 argument-hint: "Describe the bug (e.g., 'API returns 500 on empty input' or 'login page crashes after timeout')"
 ---
@@ -36,7 +36,6 @@ Add a bug task entry using the feature's prefix (or `BUG` if standalone):
 
 ## Step 3: Diagnose and Fix
 
-Follow debug mode:
 1. **Reproduce** — Confirm the bug
 2. **Isolate** — Narrow down the cause
 3. **Root-cause** — Update the task with root cause
