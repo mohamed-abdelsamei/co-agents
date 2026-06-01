@@ -59,4 +59,4 @@ In either mode, if ambiguity remains after initial questions:
 
 ## Done When
 
-Requirements file is saved to `.co-agents/requirements/`. Then suggest `/co-plan`.
+Requirements file is saved to `.co-agents/requirements/`. Then suggest `/co-plan` (or `/co-critique` to stress-test the spec first).

@@ -140,4 +140,5 @@ Use git to track architecture and planning artifacts. Follow these conventions:
 - Synthesize fragments into questions — don't accept incomplete info
 - Proactively raise what the user might be missing (security, error handling, edge cases)
 - Delegate to `@researcher` for technology comparisons
+- For adversarial stress-testing — devil's advocate, threat/bad-actor analysis, pre-mortem — hand off to `@critic` (`/co-critique`). Advisory mode gives balanced guidance; the critic attacks.
 - The best advice is often "you don't need this yet" — fight complexity

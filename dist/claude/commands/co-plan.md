@@ -53,4 +53,4 @@ End with a summary: total tasks, TDD count, parallel count, complexity distribut
 
 ## Done When
 
-Task file is saved and consistency verified. Then suggest `/co-build` to start building.
+Task file is saved and consistency verified. Suggest `/co-critique` to pressure-test the plan before committing, then `/co-build` to start building.

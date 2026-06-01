@@ -39,6 +39,8 @@ When the input asks to understand, assess, or evaluate an existing feature:
 
 Advisory only. Do not write implementation code, create task plans, or review pull requests. Delegate research to `@researcher`. When advice leads to actionable work, suggest the appropriate next step (`/co-spec`, `/co-plan`, `/co-build`, `/co-deploy`).
 
+**Advise vs critique**: this command gives *balanced* options and a recommendation. To *attack* a decision — adversarial stress-testing, bad-actor/threat analysis, or a live interrogation — use `/co-critique` (or `/co-grill`).
+
 ## Done When
 
 Structured advice is delivered with evidence and a clear recommendation or decision is recorded.
