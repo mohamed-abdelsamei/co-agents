@@ -2,3 +2,7 @@
 .DS_Store
 __pycache__/
 *.pyc
+
+# Built on demand by the installer (only the Claude plugin, dist/claude/, is committed)
+dist/copilot/
+dist/shared/

@@ -246,6 +246,39 @@ Complexity reflects **effort + uncertainty**, not just file count: **S** (small,
 {Ready to implement / needs fixes first}
 ```
 
+## Critique (`reviews/{topic}-critique.md`)
+
+```markdown
+# {Topic} — Critique
+
+**Date**: YYYY-MM-DD
+**Critic**: @critic
+**Target**: {decision / plan / requirements / research / idea — with link}
+
+## Steelman
+
+{The strongest, fairest version of the idea before attacking it}
+
+## Findings
+
+### Critical (resolve before committing)
+1. **[decision | bad-actor | missed-question]** {Finding} — *Why it matters*: {…} — *Mitigation / question*: {…}
+
+### Important (should resolve)
+1. **[lens]** {Finding} — {why} — {mitigation or question}
+
+### Minor (worth noting)
+1. **[lens]** {Finding}
+
+## Top Question
+
+{The single most important missed question or risk to resolve first}
+
+## Verdict
+
+**Proceed** | **Proceed with mitigations** | **Reconsider** — {one-line rationale}
+```
+
 ## Research (`research/{topic}.md`)
 
 ```markdown

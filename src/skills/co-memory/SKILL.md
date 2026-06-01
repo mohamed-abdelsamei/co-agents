@@ -11,7 +11,8 @@ Standards, templates, and agent permissions are defined in:
 
 ## Quick Reference
 
-- **`docs/`** — Source of truth for architecture, research, specs. Read first. Wins on conflicts.
-- **`.co-agents/`** — Operational tracking: decisions, tasks, requirements, reviews, experiments.
+- **`docs/`** — durable source-of-truth documents: the architecture overview (`docs/architecture.md`), design specs, API references, guides.
+- **`.co-agents/`** — operational memory: constitution, decisions, improvements, requirements, tasks, reviews, research findings, experiments.
+- **One home per artifact** — never keep duplicate copies across `docs/` and `.co-agents/`.
 - **One file per feature** — update in-place, never create duplicates.
-- **Task status**: `[ ]` Not started · `[~]` In progress · `[x]` Done · `[-]` Blocked
+- **Task status**: `[ ]` not started · `[~]` in progress · `[x]` done · `[!]` needs re-verification · `[-]` blocked · `[obsolete]` no longer needed

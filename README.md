@@ -1,6 +1,6 @@
 # Co-Agents
 
-A reusable **agent team** that takes a project from **research and planning through implementation, review, and ops** — running in both **Claude Code** and **GitHub Copilot**. Four specialized agents, 11 `/co-*` commands, and a persistent, version-controlled **project memory** (decisions, requirements, tasks, and a research knowledge base) so context and rationale are never lost between sessions.
+A reusable **agent team** that takes a project from **research and planning through implementation, review, and ops** — running in both **Claude Code** and **GitHub Copilot**. Five specialized agents, 13 `/co-*` commands, and a persistent, version-controlled **project memory** (decisions, requirements, tasks, and a research knowledge base) so context and rationale are never lost between sessions.
 
 It's built for more than shipping code: research is a first-class phase with sourced, confidence-rated findings and a living knowledge index, and planning has a lightweight mode for exploratory or non-code work.
 
@@ -20,10 +20,10 @@ Then, inside your project, run `/co-setup` (new project) or `/co-init` (existing
 ### GitHub Copilot (file install)
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/mohamed-abdelsamei/co-agents/main/remote-install.sh) .
+bash <(curl -fsSL https://raw.githubusercontent.com/mohamed-abdelsamei/co-agents/main/install.sh) .
 ```
 
-For private repos, add `--ssh`. See [install options](#install-options) for more. Then:
+Requires `python3` (the installer builds the `.github/` layout from source). For private repos, add `--ssh`. See [install options](#install-options) for more. Then:
 
 1. Edit `.github/copilot-instructions.md` to define your stack (languages, frameworks, infrastructure)
 2. Run `/co-init` to scan the codebase, populate project memory, and define principles
@@ -36,6 +36,7 @@ For private repos, add `--ssh`. See [install options](#install-options) for more
 | `@engineer` | Implementation, debugging, TDD, experiments, demos |
 | `@devops` | CI/CD, infrastructure-as-code, deployment, monitoring |
 | `@researcher` | Evidence-based research with a living knowledge base, technology comparisons, and documentation |
+| `@critic` | Adversarial stress-testing — decision critique, bad-actor/threat analysis, and the missed questions, before you commit |
 
 ## Workflow
 
@@ -43,7 +44,7 @@ For private repos, add `--ssh`. See [install options](#install-options) for more
 /co-setup or /co-init → /co-spec → /co-plan → /co-build → /co-review
 ```
 
-Research (`/co-research`), documentation (`/co-docs`), advisory (`/co-advise`), and infrastructure (`/co-deploy`) can be used at any phase.
+Research (`/co-research`), documentation (`/co-docs`), advisory (`/co-advise`), critique (`/co-critique`), and infrastructure (`/co-deploy`) can be used at any phase. `/co-critique` is most valuable right before you commit to a decision or plan — run it after `/co-spec` or `/co-plan`, or on any recorded decision. It has two modes: a one-shot written critique (default), or **`/co-grill <topic>`** to be **interrogated live**, one sharp question at a time (also `/co-critique grill <topic>`).
 
 **Refinement loop:**
 
@@ -69,6 +70,8 @@ Research (`/co-research`), documentation (`/co-docs`), advisory (`/co-advise`), 
 | Report & fix a bug | `/co-fix` | `@engineer` |
 | Review implementation | `/co-review` | `@architect` |
 | Strategic advice or feature assessment | `/co-advise` | `@architect` |
+| Stress-test a decision/plan before committing | `/co-critique` | `@critic` |
+| Be interrogated live about your reasoning | `/co-grill` | `@critic` |
 | Research a topic | `/co-research` | `@researcher` |
 | Write documentation | `/co-docs` | `@researcher` |
 | Infrastructure / CI/CD / deployment | `/co-deploy` | `@devops` |
@@ -89,8 +92,8 @@ your-project/          (created on first /co-setup or /co-init)
 ```
 your-project/
 ├── .github/
-│   ├── agents/           4 agent definitions
-│   ├── prompts/          11 prompt workflows
+│   ├── agents/           5 agent definitions
+│   ├── prompts/          13 prompt workflows
 │   ├── instructions/     Shared standards (auto-applied via applyTo)
 │   ├── skills/           Workflow skills (co-memory)
 │   └── copilot-instructions.md
@@ -173,7 +176,7 @@ Every decision, requirement, and review is tracked in `.co-agents/` — committe
 
 ## Install Options
 
-The `install.sh` / `remote-install.sh` file installer is for **GitHub Copilot** (Claude Code uses the plugin marketplace — see [Quick Start](#quick-start)).
+The `install.sh` file installer is for **GitHub Copilot** (Claude Code uses the plugin marketplace — see [Quick Start](#quick-start)). It's self-bootstrapping — run it from a clone or one-line over curl (it clones itself when needed) — and needs `python3` + `git`, since it builds the `.github/` layout from `src/` on the fly.
 
 | Flag | Description |
 |------|-------------|
@@ -182,7 +185,7 @@ The `install.sh` / `remote-install.sh` file installer is for **GitHub Copilot** 
 | `--dry-run` | Preview without making changes |
 | `--force` | Overwrite existing files |
 | `--no-memory` | Skip `.co-agents/` skeleton |
-| `--ssh` | Clone via SSH (private repos, `remote-install.sh` only) |
+| `--ssh` | When self-cloning over curl, clone via SSH (private repos) |
 
 **From a local clone:**
 
@@ -194,13 +197,15 @@ cd co-agents
 
 ## Contributing
 
-Everything is authored **once** in `src/` (Copilot dialect) and generated into each tool's native artifact under `dist/` by the adapter build. Edit `src/`, never `dist/`, and commit the regenerated `dist/`.
+Everything is authored **once** in `src/` (Copilot dialect) and generated into each tool's native artifact under `dist/` by the adapter build. Edit `src/`, never `dist/`.
 
 ```bash
-python3 scripts/build.py                 # build all targets
-python3 scripts/build.py claude          # build one target
-python3 scripts/build.py --check         # CI guard: fail if dist/ is stale
+python3 -m adapters                  # build all targets
+python3 -m adapters claude           # build one target
+python3 -m adapters claude --check   # CI guard: fail if the committed plugin is stale
 ```
+
+Only the Claude plugin (`dist/claude/`) is committed — the marketplace serves it from the repo. `dist/copilot/` and `dist/shared/` are git-ignored and built on demand by `install.sh`. Re-run `python3 -m adapters claude` and commit `dist/claude/` whenever you change `src/`.
 
 | What | Where (edit in `src/`) |
 |------|------------------------|

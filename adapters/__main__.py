@@ -4,14 +4,14 @@
 Single source of truth lives in src/ (authored in GitHub Copilot dialect). Each
 registered adapter emits its target's native artifact:
 
-    dist/claude/    a Claude Code plugin (installed via the marketplace)
-    dist/copilot/   GitHub Copilot layout (.github/...)
-    dist/shared/    tool-agnostic payload (memory + docs) for file-copy installs
+    dist/claude/    a Claude Code plugin (committed; the marketplace points here)
+    dist/copilot/   GitHub Copilot layout (.github/...)   — built on demand, gitignored
+    dist/shared/    tool-agnostic payload (memory + docs)  — built on demand, gitignored
 
-Usage:
-    python3 scripts/build.py                 # build all targets
-    python3 scripts/build.py claude copilot  # build specific targets
-    python3 scripts/build.py --check         # fail if dist/ is out of sync with src/
+Usage (run from the repo root):
+    python3 -m adapters                  # build all targets
+    python3 -m adapters claude copilot   # build specific targets
+    python3 -m adapters --check          # fail if committed dist/ is out of sync with src/
 """
 
 from __future__ import annotations
@@ -20,10 +20,8 @@ import shutil
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from adapters import ADAPTERS          # noqa: E402
-from adapters.model import load_model  # noqa: E402
+from . import ADAPTERS
+from .model import load_model
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
@@ -80,7 +78,7 @@ def check(out: dict[str, str], targets: list[str]) -> int:
         drift.append(f"stale:   {extra.relative_to(DIST).as_posix()}")
 
     if drift:
-        print("dist/ is out of sync with src/ — run `python3 scripts/build.py`:")
+        print("dist/ is out of sync with src/ — run `python3 -m adapters`:")
         for d in drift:
             print(f"  {d}")
         return 1

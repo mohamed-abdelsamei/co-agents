@@ -14,6 +14,8 @@ See `README.md` for the full agent team, prompt reference, and SDLC workflow.
 - **Quick experiment?** → `/co-build` (detects experiment/spike intent)
 - **Understand a feature?** → `/co-advise` (detects assessment intent)
 - **Strategic decision?** → `/co-advise`
+- **Stress-test a decision/plan/spec before committing?** → `/co-critique`
+- **Want to be interrogated on your reasoning?** → `/co-grill`
 - **Need docs?** → `/co-docs`
 - **Research a topic?** → `/co-research`
 - **Implementation done?** → `/co-review`

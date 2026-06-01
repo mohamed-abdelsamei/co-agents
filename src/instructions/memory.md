@@ -30,9 +30,10 @@ docs/
 │   └── {feature}.md
 ├── tasks/                   # Implementation plans — one file per feature
 │   └── {feature}-tasks.md
-├── reviews/                 # Review reports and consistency analyses
+├── reviews/                 # Review reports, consistency analyses, and critiques
 │   ├── {feature}-review.md
-│   └── {feature}-analysis.md
+│   ├── {feature}-analysis.md
+│   └── {topic}-critique.md
 ├── research/                # Research findings — one file per topic, plus README.md (knowledge index)
 │   ├── README.md            # Living knowledge map: what we know / what's open
 │   └── {topic}.md
@@ -49,6 +50,7 @@ docs/
 | **engineer** | `docs/`, constitution, decisions, requirements/, tasks/ | tasks/ (status), decisions, improvements, experiments/ |
 | **devops** | `docs/` (incl. `architecture.md`), constitution, decisions, requirements/, tasks/ | tasks/ (status), decisions, improvements |
 | **researcher** | `docs/`, constitution, decisions, requirements/, improvements, research/ | research/ (full findings + index), `docs/` (reference docs) |
+| **critic** | everything (read-only): `docs/`, constitution, decisions, improvements, requirements/, tasks/, reviews/, research/ | reviews/ (critiques), improvements (append risks), decisions (flag annotations only) |
 
 **Special case**: `/co-init` writes `docs/architecture.md`, plus `decisions.md` (inferred), `improvements.md`, and `constitution.md`.
 
@@ -66,6 +68,7 @@ Before creating any file in `.co-agents/` or `docs/`, scan the target directory 
 | `tasks/{feature}-tasks.md` | Update/add tasks. Preserve completed task statuses (`[x]`). Mark tasks for dropped requirements as `[obsolete]`. Mark tasks for changed requirements as `[!]` (needs re-verification). |
 | `reviews/{feature}-review.md` | **Overwrite** with latest review. The most recent review is the source of truth. |
 | `reviews/{feature}-analysis.md` | **Overwrite** with latest analysis. |
+| `reviews/{topic}-critique.md` | **Overwrite** with the latest critique of that topic. |
 | `decisions.md` | **Append** new entries. Check existing entries first — do not duplicate a decision already recorded. |
 | `improvements.md` | **Append** new entries. Check existing entries first — do not duplicate an improvement already tracked. |
 | `docs/{topic}.md` | **Update** existing document. Revise outdated sections, add new content. Do not create a second file. |

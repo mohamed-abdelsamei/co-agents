@@ -8,7 +8,7 @@
     {
       "name": "co-agents",
       "source": "./dist/claude",
-      "description": "An agent team for the whole project lifecycle — research, planning, implementation, review, and ops — with persistent project memory. 4 agents, 11 /co-* commands."
+      "description": "An agent team for the whole project lifecycle — research, planning, implementation, review, and ops — with persistent project memory. 5 agents, 13 /co-* commands."
     }
   ]
 }

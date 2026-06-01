@@ -26,7 +26,7 @@ PLUGIN_MANIFEST = {
     "version": "0.1.0",
     "description": "An agent team for the whole project lifecycle — research, "
                    "planning, implementation, review, and ops — with persistent "
-                   "project memory. 4 agents, 11 /co-* commands.",
+                   "project memory. 5 agents, 13 /co-* commands.",
     "author": {
         "name": "Mohamed Abdelsamei",
         "url": "https://github.com/mohamed-abdelsamei",

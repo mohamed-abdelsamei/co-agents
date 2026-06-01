@@ -1,11 +1,11 @@
 name: build-check
 
-# Ensure dist/ is regenerated whenever the source or build changes.
+# Ensure the committed Claude plugin (dist/claude/) stays in sync with src/.
 on:
   push:
-    paths: ["src/**", "adapters/**", "scripts/**", "dist/**"]
+    paths: ["src/**", "adapters/**", "dist/**"]
   pull_request:
-    paths: ["src/**", "adapters/**", "scripts/**", "dist/**"]
+    paths: ["src/**", "adapters/**", "dist/**"]
 
 jobs:
   check:
@@ -15,5 +15,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Verify dist/ is in sync with src/
-        run: python3 scripts/build.py --check
+      - name: Build all targets (validates every adapter runs)
+        run: python3 -m adapters
+      - name: Verify committed plugin is in sync with src/
+        run: python3 -m adapters claude --check
