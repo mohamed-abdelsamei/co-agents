@@ -1,18 +1,29 @@
 # Co-Agents
 
-A structured SDLC workflow for GitHub Copilot — 4 specialized agents, 11 prompts, and a persistent project memory system that turns Copilot into a full development team.
+A reusable **agent team** that takes a project from **research and planning through implementation, review, and ops** — running in both **Claude Code** and **GitHub Copilot**. Four specialized agents, 11 `/co-*` commands, and a persistent, version-controlled **project memory** (decisions, requirements, tasks, and a research knowledge base) so context and rationale are never lost between sessions.
+
+It's built for more than shipping code: research is a first-class phase with sourced, confidence-rated findings and a living knowledge index, and planning has a lightweight mode for exploratory or non-code work.
+
+The same agents, commands, and conventions are authored once in `src/` and generated into each tool's **native** distribution format — a plugin for Claude Code, `.github/` files for GitHub Copilot. Adding another editor is one adapter.
 
 ## Quick Start
 
-Install into your project directory:
+### Claude Code (plugin)
+
+```
+/plugin marketplace add mohamed-abdelsamei/co-agents
+/plugin install co-agents
+```
+
+Then, inside your project, run `/co-setup` (new project) or `/co-init` (existing project) — the command creates `.co-agents/`, `docs/`, and `CLAUDE.md` for you.
+
+### GitHub Copilot (file install)
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/mohamed-abdelsamei/co-agents/main/remote-install.sh) .
 ```
 
-For private repos, add `--ssh`. See [install options](#install-options) for more.
-
-Then:
+For private repos, add `--ssh`. See [install options](#install-options) for more. Then:
 
 1. Edit `.github/copilot-instructions.md` to define your stack (languages, frameworks, infrastructure)
 2. Run `/co-init` to scan the codebase, populate project memory, and define principles
@@ -21,10 +32,10 @@ Then:
 
 | Agent | Role |
 |-------|------|
-| `@architect` | Requirements, architecture, task planning, code review, strategic advice, git commits for docs/plans |
-| `@engineer` | Implementation, debugging, TDD, experiments, demos, git branching and commits |
+| `@architect` | Requirements, architecture, task planning (incl. lightweight/non-code), code review, strategic advice |
+| `@engineer` | Implementation, debugging, TDD, experiments, demos |
 | `@devops` | CI/CD, infrastructure-as-code, deployment, monitoring |
-| `@researcher` | Research, comparisons, documentation |
+| `@researcher` | Evidence-based research with a living knowledge base, technology comparisons, and documentation |
 
 ## Workflow
 
@@ -64,26 +75,33 @@ Research (`/co-research`), documentation (`/co-docs`), advisory (`/co-advise`), 
 
 ## What Gets Installed
 
+**Claude Code** — installs the plugin (agents, commands, skills) into Claude's plugin cache; nothing is copied into your repo. Running `/co-setup` or `/co-init` then bootstraps the project files:
+
+```
+your-project/          (created on first /co-setup or /co-init)
+├── CLAUDE.md           Main instructions (routing, project memory, stack)
+├── docs/               Durable source of truth — architecture.md, specs, guides
+└── .co-agents/         Operational project memory (see below)
+```
+
+**GitHub Copilot** — the installer copies files into your repo:
+
 ```
 your-project/
 ├── .github/
 │   ├── agents/           4 agent definitions
 │   ├── prompts/          11 prompt workflows
-│   ├── instructions/     Shared standards (agent, code quality, memory, templates)
+│   ├── instructions/     Shared standards (auto-applied via applyTo)
 │   ├── skills/           Workflow skills (co-memory)
 │   └── copilot-instructions.md
-├── docs/                 Primary source of truth (architecture, research, specs)
-│   └── README.md
-└── .co-agents/           Project memory skeleton
+├── docs/                 Durable source of truth
+│   ├── README.md
+│   └── architecture.md   Architecture overview (single home)
+└── .co-agents/           Operational project memory
     ├── constitution.md
     ├── decisions.md
-    ├── architecture.md
     ├── improvements.md
-    ├── requirements/
-    ├── tasks/
-    ├── reviews/
-    ├── research/
-    └── experiments/
+    ├── requirements/  tasks/  reviews/  research/  experiments/
 ```
 
 ## Code Quality
@@ -104,7 +122,7 @@ Customize thresholds and add language-specific rules in `.github/copilot-instruc
 
 ## Git Conventions
 
-Both `@architect` and `@engineer` use git to track their work:
+All agents use git to track their work (`@architect`/`@engineer` for code and plans, `@researcher` for docs/research, `@devops` for infrastructure):
 
 | Convention | Details |
 |------------|--------|
@@ -138,42 +156,70 @@ Agents share context through `.co-agents/` so nothing falls through the cracks:
 
 ## Project Memory
 
-Every decision, requirement, and review is tracked in `.co-agents/` — committed to version control so context is never lost. `docs/` is the primary source of truth for architecture and specs; `.co-agents/` tracks operational artifacts.
+Every decision, requirement, and review is tracked in `.co-agents/` — committed to version control so context is never lost. Both `docs/` and `.co-agents/` are committed, with **one home per artifact** (no duplication): `docs/` holds durable source-of-truth documents; `.co-agents/` holds operational memory.
 
-| Directory | Contents |
-|-----------|----------|
-| `constitution.md` | Non-negotiable principles and quality gates |
-| `decisions.md` | Append-only architecture decision records |
-| `architecture.md` | System architecture overview |
-| `improvements.md` | Tech debt and improvement backlog |
-| `requirements/` | One file per feature — testable requirements |
-| `tasks/` | Implementation plans broken into tracked tasks |
-| `reviews/` | Structured review reports with verdicts |
-| `research/` | Research findings and analysis |
-| `experiments/` | Spike findings and demo scripts |
+| Location | Contents |
+|----------|----------|
+| `docs/architecture.md` | Architecture overview — single home |
+| `docs/` (other) | Design specs, API references, guides |
+| `.co-agents/constitution.md` | Non-negotiable principles and quality gates |
+| `.co-agents/decisions.md` | Append-only architecture decision records |
+| `.co-agents/improvements.md` | Tech debt and improvement backlog |
+| `.co-agents/requirements/` | One file per feature — testable requirements |
+| `.co-agents/tasks/` | Implementation plans broken into tracked tasks |
+| `.co-agents/reviews/` | Structured review reports with verdicts |
+| `.co-agents/research/` | Research findings (sourced, confidence-rated) + `README.md` knowledge index |
+| `.co-agents/experiments/` | Spike findings and demo scripts |
 
 ## Install Options
 
+The `install.sh` / `remote-install.sh` file installer is for **GitHub Copilot** (Claude Code uses the plugin marketplace — see [Quick Start](#quick-start)).
+
 | Flag | Description |
 |------|-------------|
+| `--claude` | Print the Claude Code plugin install steps, then exit |
+| `--copilot` | Install the GitHub Copilot layout (`.github/`) — the default |
 | `--dry-run` | Preview without making changes |
 | `--force` | Overwrite existing files |
 | `--no-memory` | Skip `.co-agents/` skeleton |
-| `--ssh` | Clone via SSH (private repos) |
+| `--ssh` | Clone via SSH (private repos, `remote-install.sh` only) |
 
 **From a local clone:**
 
 ```bash
 git clone https://github.com/mohamed-abdelsamei/co-agents.git
 cd co-agents
-./install.sh ~/path/to/your-project
+./install.sh ~/path/to/your-project        # GitHub Copilot
 ```
 
 ## Contributing
 
-| What | Where |
-|------|-------|
-| Agent definitions | `.github/agents/` |
-| Prompt workflows | `.github/prompts/` |
-| Skills | `.github/skills/{name}/SKILL.md` |
-| Memory templates | `.github/instructions/memory.instructions.md` |
+Everything is authored **once** in `src/` (Copilot dialect) and generated into each tool's native artifact under `dist/` by the adapter build. Edit `src/`, never `dist/`, and commit the regenerated `dist/`.
+
+```bash
+python3 scripts/build.py                 # build all targets
+python3 scripts/build.py claude          # build one target
+python3 scripts/build.py --check         # CI guard: fail if dist/ is stale
+```
+
+| What | Where (edit in `src/`) |
+|------|------------------------|
+| Main instructions | `src/main-instructions.md` |
+| Agent definitions | `src/agents/{name}.md` |
+| Command workflows | `src/commands/co-{name}.md` |
+| Shared instructions | `src/instructions/{name}.md` |
+| Skills | `src/skills/{name}/SKILL.md` |
+| Memory & docs skeleton | `src/shared/{memory,docs}/` |
+
+### How the build works
+
+`src/` is parsed once into a model (`adapters/model.py`), then one **adapter per target** emits its native layout:
+
+| Adapter | Output | Notes |
+|---------|--------|-------|
+| `adapters/copilot.py` | `dist/copilot/.github/` | Bodies verbatim; files renamed |
+| `adapters/claude.py` | `dist/claude/` (a plugin) | Maps tool names, rewrites `$INPUT`→`$ARGUMENTS` and paths to `${CLAUDE_PLUGIN_ROOT}`, emits `plugin.json` + bootstrap `templates/` |
+
+The repo root is itself a Claude **marketplace** (`.claude-plugin/marketplace.json` → `./dist/claude`).
+
+**Adding an editor** (e.g. opencode): write `adapters/<tool>.py` exposing `TARGET` and `build(model)`, register it in `adapters/__init__.py`, and run the build. No other code changes.

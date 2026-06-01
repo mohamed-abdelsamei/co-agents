@@ -2,12 +2,16 @@
 set -euo pipefail
 
 # ─── Co-Agents Installer ─────────────────────────────────────────────────────
-# Installs the co-agents workflow into an existing project.
+# File-copy installer for editors WITHOUT a native plugin system (GitHub Copilot
+# today; more later). Claude Code installs via the plugin marketplace instead —
+# see --claude below.
 #
 # Usage:
 #   ./install.sh <target-project-path> [options]
 #
 # Options:
+#   --copilot     Install the GitHub Copilot layout (.github/) — the default
+#   --claude      Print how to install the Claude Code plugin, then exit
 #   --dry-run     Show what would happen without making changes
 #   --force       Overwrite existing files (default: skip)
 #   --no-memory   Skip creating .co-agents/ skeleton
@@ -15,22 +19,27 @@ set -euo pipefail
 # ─────────────────────────────────────────────────────────────────────────────
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_GITHUB="$SCRIPT_DIR/.github"
-SOURCE_MEMORY="$SCRIPT_DIR/.co-agents"
+DIST="$SCRIPT_DIR/dist"
+SHARED="$DIST/shared"
+REPO="mohamed-abdelsamei/co-agents"
 
 DRY_RUN=false
 FORCE=false
 SKIP_MEMORY=false
+WANT_CLAUDE=false
+WANT_COPILOT=false
 TARGET=""
 
 # ─── Colors ───────────────────────────────────────────────────────────────────
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-BOLD='\033[1m'
-NC='\033[0m'
+# ANSI-C quoting ($'...') stores real escape bytes, so colors render in both
+# `echo -e` and `cat <<EOF` heredocs.
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[0;33m'
+BLUE=$'\033[0;34m'
+BOLD=$'\033[1m'
+NC=$'\033[0m'
 
 log()   { echo -e "${GREEN}→${NC} $*"; }
 warn()  { echo -e "${YELLOW}⚠${NC} $*"; }
@@ -44,31 +53,29 @@ usage() {
   cat <<EOF
 ${BOLD}Co-Agents Installer${NC}
 
-Install the co-agents SDLC workflow into an existing project.
+File-copy installer for editors without a native plugin system (GitHub Copilot).
+Claude Code installs via the plugin marketplace — run with --claude for steps.
 
 ${BOLD}Usage:${NC}
   $(basename "$0") <target-project-path> [options]
 
 ${BOLD}Options:${NC}
+  --copilot     Install the GitHub Copilot layout (.github/) — the default
+  --claude      Print how to install the Claude Code plugin, then exit
   --dry-run     Show what would happen without making changes
   --force       Overwrite existing files (default: skip existing)
   --no-memory   Skip creating .co-agents/ skeleton
   --help        Show this help message
 
-${BOLD}What gets installed:${NC}
-  .github/agents/           4 custom agents (architect, engineer, devops, researcher)
-  .github/prompts/          11 prompt files (/co-setup, /co-spec, /co-plan, /co-build, etc.)
-  .github/instructions/     Shared standards (agent, code quality, memory, templates)
-  .github/skills/           Workflow skills (co-memory)
-  .github/copilot-instructions.md   Main copilot configuration
-  docs/                     Documentation skeleton with README
-  .co-agents/               Project memory skeleton (constitution, decisions, etc.)
+${BOLD}What gets installed (Copilot):${NC}
+  .github/copilot-instructions.md, .github/agents, .github/prompts,
+  .github/instructions, .github/skills
+  Shared:  docs/ (skeleton) and .co-agents/ (project memory)
 
 ${BOLD}Examples:${NC}
-  $(basename "$0") ~/Work/my-app
+  $(basename "$0") ~/Work/my-app                # GitHub Copilot
   $(basename "$0") ~/Work/my-app --dry-run
-  $(basename "$0") ~/Work/my-app --force
-  $(basename "$0") ~/Work/my-app --no-memory
+  $(basename "$0") --claude                     # Claude plugin instructions
 
 ${BOLD}After installation:${NC}
   1. Edit .github/copilot-instructions.md to match the project's stack
@@ -77,10 +84,26 @@ EOF
   exit 0
 }
 
+claude_instructions() {
+  echo ""
+  echo -e "${BOLD}Install co-agents for Claude Code (plugin):${NC}"
+  echo ""
+  echo -e "  ${GREEN}/plugin marketplace add ${REPO}${NC}"
+  echo -e "  ${GREEN}/plugin install co-agents${NC}"
+  echo ""
+  echo -e "Then, inside your project, run ${GREEN}/co-setup${NC} (new project) or ${GREEN}/co-init${NC}"
+  echo "(existing project) — the command creates .co-agents/, docs/, and CLAUDE.md for you."
+  echo ""
+  echo "No file copying is needed for Claude Code, so this installer makes no changes."
+  exit 0
+}
+
 # ─── Parse Args ───────────────────────────────────────────────────────────────
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --claude)     WANT_CLAUDE=true; shift ;;
+    --copilot)    WANT_COPILOT=true; shift ;;
     --dry-run)    DRY_RUN=true; shift ;;
     --force)      FORCE=true; shift ;;
     --no-memory)  SKIP_MEMORY=true; shift ;;
@@ -97,6 +120,11 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+# Claude uses the plugin marketplace, not file copying.
+if $WANT_CLAUDE; then
+  claude_instructions
+fi
 
 if [[ -z "$TARGET" ]]; then
   error "Missing target project path"
@@ -158,24 +186,21 @@ copy_file() {
       dry "copy → $rel"
     fi
   else
+    ensure_dir "$(dirname "$dest")"
     cp "$src" "$dest"
   fi
   copied=$((copied + 1))
 }
 
-copy_dir_contents() {
+# Recursively copy a source tree's contents into a destination directory.
+copy_tree() {
   local src_dir="$1"
   local dest_dir="$2"
-  local pattern="${3:-*}"
 
-  ensure_dir "$dest_dir"
-
-  for src_file in "$src_dir"/$pattern; do
-    [[ -f "$src_file" ]] || continue
-    local filename
-    filename="$(basename "$src_file")"
-    copy_file "$src_file" "$dest_dir/$filename"
-  done
+  while IFS= read -r -d '' src_file; do
+    local rel="${src_file#$src_dir/}"
+    copy_file "$src_file" "$dest_dir/$rel"
+  done < <(find "$src_dir" -type f -print0)
 }
 
 # ─── Preflight ────────────────────────────────────────────────────────────────
@@ -184,89 +209,53 @@ echo ""
 echo -e "${BOLD}Co-Agents Installer${NC}"
 echo -e "Source: ${BLUE}$SCRIPT_DIR${NC}"
 echo -e "Target: ${BLUE}$TARGET${NC}"
+echo -e "Tool:   ${BLUE}copilot${NC}"
 $DRY_RUN && echo -e "Mode:   ${YELLOW}dry-run${NC}" || echo -e "Mode:   ${GREEN}install${NC}"
 $FORCE && echo -e "Force:  ${YELLOW}overwrite existing files${NC}"
 echo ""
 
-# ─── Verify source files exist ───────────────────────────────────────────────
-
-if [[ ! -d "$SOURCE_GITHUB/agents" ]]; then
-  error "Source agents directory not found: $SOURCE_GITHUB/agents"
+if [[ ! -d "$DIST/copilot/.github" ]]; then
+  error "Copilot build missing: $DIST/copilot/.github"
+  error "Run 'python3 scripts/build.py' first to generate dist/ from src/."
+  exit 1
+fi
+if [[ ! -d "$SHARED" ]]; then
+  error "Shared payload missing: $SHARED (run 'python3 scripts/build.py')"
   exit 1
 fi
 
-if [[ ! -d "$SOURCE_GITHUB/prompts" ]]; then
-  error "Source prompts directory not found: $SOURCE_GITHUB/prompts"
-  exit 1
-fi
+# ─── Install Copilot layout ──────────────────────────────────────────────────
 
-if [[ ! -d "$SOURCE_GITHUB/skills" ]]; then
-  error "Source skills directory not found: $SOURCE_GITHUB/skills"
-  exit 1
-fi
+log "Installing GitHub Copilot layout (.github/)..."
+copy_tree "$DIST/copilot/.github" "$TARGET/.github"
 
-if [[ ! -d "$SOURCE_GITHUB/instructions" ]]; then
-  error "Source instructions directory not found: $SOURCE_GITHUB/instructions"
-  exit 1
-fi
-
-if [[ ! -f "$SOURCE_GITHUB/copilot-instructions.md" ]]; then
-  error "Source copilot-instructions.md not found: $SOURCE_GITHUB/copilot-instructions.md"
-  exit 1
-fi
-
-# ─── Install ──────────────────────────────────────────────────────────────────
-
-log "Installing agents..."
-copy_dir_contents "$SOURCE_GITHUB/agents" "$TARGET/.github/agents" "*.agent.md"
-
-log "Installing prompts..."
-copy_dir_contents "$SOURCE_GITHUB/prompts" "$TARGET/.github/prompts" "*.prompt.md"
-
-log "Installing instructions..."
-copy_dir_contents "$SOURCE_GITHUB/instructions" "$TARGET/.github/instructions" "*.instructions.md"
-
-log "Installing skills..."
-for skill_dir in "$SOURCE_GITHUB/skills"/*/; do
-  skill_name="$(basename "$skill_dir")"
-  copy_dir_contents "$skill_dir" "$TARGET/.github/skills/$skill_name"
-done
-
-log "Installing copilot-instructions.md..."
-copy_file "$SOURCE_GITHUB/copilot-instructions.md" "$TARGET/.github/copilot-instructions.md"
-
-# ─── Docs Skeleton ────────────────────────────────────────────────────────────
+# ─── Docs Skeleton (shared) ──────────────────────────────────────────────────
 
 log "Setting up docs/..."
-ensure_dir "$TARGET/docs"
-if [[ -f "$SCRIPT_DIR/docs/README.md" ]]; then
-  copy_file "$SCRIPT_DIR/docs/README.md" "$TARGET/docs/README.md"
+if [[ -d "$SHARED/docs" ]]; then
+  copy_tree "$SHARED/docs" "$TARGET/docs"
 fi
 
-# ─── Project Memory Skeleton ─────────────────────────────────────────────────
+# ─── Project Memory Skeleton (shared) ────────────────────────────────────────
 
 if ! $SKIP_MEMORY; then
-  log "Setting up project memory..."
+  log "Setting up project memory (.co-agents/)..."
 
   MEMORY_DIR="$TARGET/.co-agents"
   ensure_dir "$MEMORY_DIR"
 
-  # Copy template files
-  for template in constitution.md decisions.md architecture.md improvements.md; do
-    if [[ -f "$SOURCE_MEMORY/$template" ]]; then
-      copy_file "$SOURCE_MEMORY/$template" "$MEMORY_DIR/$template"
-    fi
-  done
+  if [[ -d "$SHARED/memory" ]]; then
+    copy_tree "$SHARED/memory" "$MEMORY_DIR"
+  fi
 
-  # Create subdirectories with .gitkeep
   for subdir in requirements tasks reviews research experiments; do
     ensure_dir "$MEMORY_DIR/$subdir"
-    local_gitkeep="$MEMORY_DIR/$subdir/.gitkeep"
-    if [[ ! -f "$local_gitkeep" ]]; then
+    gitkeep="$MEMORY_DIR/$subdir/.gitkeep"
+    if [[ ! -f "$gitkeep" ]]; then
       if $DRY_RUN; then
-        dry "touch $(rel_path "$local_gitkeep")"
+        dry "touch $(rel_path "$gitkeep")"
       else
-        touch "$local_gitkeep"
+        touch "$gitkeep"
       fi
     fi
   done
@@ -290,7 +279,7 @@ else
   echo ""
   echo -e "${BOLD}Next steps:${NC}"
   echo "  1. cd $TARGET"
-  echo "  2. Edit .github/copilot-instructions.md to match your project's stack"
-  echo "  2. Run /co-init to scan the codebase, populate project memory, and define principles"
+  echo "  2. Edit .github/copilot-instructions.md to match your stack"
+  echo "  3. Run /co-init to scan the codebase, populate project memory, and define principles"
   echo ""
 fi

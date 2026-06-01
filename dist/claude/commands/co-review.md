@@ -1,0 +1,44 @@
+---
+description: "Review current implementation against requirements — checks alignment, code quality, and produces a structured review report with fix tasks."
+argument-hint: "Which feature or area to review (e.g., 'auth module' or 'all')"
+allowed-tools: Read, Grep, Glob, Edit, Write, WebFetch, WebSearch, Task, Bash
+---
+
+> Act as the **architect** agent (`${CLAUDE_PLUGIN_ROOT}/agents/architect.md`).
+
+The user wants to review: **$ARGUMENTS**
+
+## This Is a Review Session — Strictly Read-Only
+
+You are verifying implementation against specs. Do NOT modify source code.
+
+## Precondition
+
+Tasks MUST exist in `.co-agents/tasks/` with at least one task marked `[x]` done. If no tasks exist, stop and suggest `/co-plan`. If no tasks are done, stop and suggest `/co-build`.
+
+## What to Check
+
+For EACH requirement and acceptance criterion:
+- Find the implementing code — reference specific files and line numbers
+- Verify acceptance criteria are met, including edge cases
+- For TDD tasks, verify tests exist and cover criteria
+- Check code quality, conventions, security, and constitution alignment
+- Check function sizes — flag functions over ~20 lines or with multiple responsibilities as findings
+
+Produce a **coverage summary table** mapping requirements → tasks → code location.
+
+## What to Deliver
+
+A structured review report saved to `.co-agents/reviews/{feature}-review.md`. If a previous review exists for this feature, **overwrite it** — the latest review is the source of truth. Include:
+- Requirement alignment table
+- Categorized findings (critical, important, suggestions)
+- Fix task list
+- Verdict: **Approved** / **Changes Requested** / **Needs Rework**
+
+## Scope Guard
+
+Read-only. Do not modify source code or fix bugs. If fixes are needed, append fix tasks to the existing `.co-agents/tasks/{feature}-tasks.md` file (preserving completed tasks) and suggest `/co-build`.
+
+## Done When
+
+Review report is saved with a clear verdict.

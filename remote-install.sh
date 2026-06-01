@@ -2,13 +2,18 @@
 set -euo pipefail
 
 # ─── Co-Agents Remote Installer ──────────────────────────────────────────────
-# Installs co-agents into a project without cloning the full repo.
+# Installs co-agents (GitHub Copilot) into a project without cloning the full repo.
 # Uses git clone --depth 1 so it works with both public and private repos.
+#
+# For Claude Code, use the plugin marketplace instead (no clone needed):
+#   /plugin marketplace add mohamed-abdelsamei/co-agents
+#   /plugin install co-agents
 #
 # Usage:
 #   bash remote-install.sh <target-project-path> [options]
 #
-# All options from install.sh are supported: --dry-run, --force, --no-memory
+# All options from install.sh are supported:
+#   --copilot, --dry-run, --force, --no-memory
 # Additional options:
 #   --ssh             Clone via SSH instead of HTTPS
 # ─────────────────────────────────────────────────────────────────────────────
@@ -48,6 +53,10 @@ if [[ ${#ARGS[@]} -eq 0 ]]; then
   echo ""
   echo "Usage:"
   echo "  bash remote-install.sh <target-project-path> [options]"
+  echo ""
+  echo "Installs co-agents for GitHub Copilot. For Claude Code, use the plugin:"
+  echo "  /plugin marketplace add mohamed-abdelsamei/co-agents"
+  echo "  /plugin install co-agents"
   echo ""
   echo "Options:"
   echo "  --ssh              Clone via SSH instead of HTTPS"
