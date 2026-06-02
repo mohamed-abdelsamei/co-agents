@@ -176,24 +176,32 @@ Every decision, requirement, and review is tracked in `.co-agents/` — committe
 
 ## Install Options
 
-The `install.sh` file installer is for **GitHub Copilot** (Claude Code uses the plugin marketplace — see [Quick Start](#quick-start)). It's self-bootstrapping — run it from a clone or one-line over curl (it clones itself when needed) — and needs `python3` + `git`, since it builds the `.github/` layout from `src/` on the fly.
+`install.sh` installs co-agents as **files** for either tool, at **project** or **user** scope. It's self-bootstrapping (run from a clone or one-line over curl) and needs `python3` + `git`, since it builds the layout from `src/` on the fly.
+
+> For **Claude Code**, the **marketplace plugin** (see [Quick Start](#quick-start)) is the recommended, zero-maintenance path — it's already user-global. Use `--claude` here only if you want the files locally (to commit or customize them).
 
 | Flag | Description |
 |------|-------------|
-| `--claude` | Print the Claude Code plugin install steps, then exit |
-| `--copilot` | Install the GitHub Copilot layout (`.github/`) — the default |
+| `--copilot` | GitHub Copilot layout (`.github/`) — the default tool |
+| `--claude` | Claude Code file layout (`.claude/` + `CLAUDE.md`) |
+| `--user` | Install at user/global scope (every project), no `<target>` and no memory skeleton. Claude → `~/.claude/`; Copilot → the VS Code user profile |
+| `--user-dir D` | Override the user-scope destination (Copilot) |
 | `--dry-run` | Preview without making changes |
 | `--force` | Overwrite existing files |
-| `--no-memory` | Skip `.co-agents/` skeleton |
+| `--no-memory` | Skip the `.co-agents/` skeleton (project scope only) |
 | `--ssh` | When self-cloning over curl, clone via SSH (private repos) |
 
-**From a local clone:**
+**Scope:** *project* (default) installs into `<target>/` and lays the `.co-agents/` memory skeleton; *user* (`--user`) installs the agents/commands/skills globally for every project — memory stays per-project, so it's skipped.
 
 ```bash
-git clone https://github.com/mohamed-abdelsamei/co-agents.git
-cd co-agents
-./install.sh ~/path/to/your-project        # GitHub Copilot
+git clone https://github.com/mohamed-abdelsamei/co-agents.git && cd co-agents
+./install.sh ~/Work/app                  # Copilot, this project
+./install.sh ~/Work/app --claude         # Claude files, this project
+./install.sh --claude --user             # Claude files in ~/.claude (all projects)
+./install.sh --copilot --user            # Copilot files in the VS Code user profile
 ```
+
+> Copilot user-scope paths are IDE/version-specific; you may need to point Copilot at the dir (VS Code: `chat.promptFilesLocations` / `instructionsFilesLocations`), or pass `--user-dir`.
 
 ## Contributing
 

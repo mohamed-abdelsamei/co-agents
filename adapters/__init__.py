@@ -4,6 +4,6 @@ Each adapter module exposes ``TARGET: str`` and ``build(model) -> {relpath: cont
 with paths rooted at the target's dist subdirectory (``dist/<TARGET>/``).
 """
 
-from . import claude, copilot
+from . import claude, claude_local, copilot
 
-ADAPTERS = {m.TARGET: m for m in (claude, copilot)}
+ADAPTERS = {m.TARGET: m for m in (claude, claude_local, copilot)}

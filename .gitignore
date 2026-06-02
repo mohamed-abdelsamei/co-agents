@@ -6,3 +6,4 @@ __pycache__/
 # Built on demand by the installer (only the Claude plugin, dist/claude/, is committed)
 dist/copilot/
 dist/shared/
+dist/claude-local/
