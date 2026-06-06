@@ -36,7 +36,7 @@ their call.
 
 ## Step 4 — Record
 
-Write:
+Following the **decision-and-spec** skill (testable requirements + ADR craft), write:
 - The spec → `.coagents/requirements/{slug}.md` (testable requirements, scope).
 - The design decision → `.coagents/decisions/` (ADR: context, decision, alternatives,
   consequences).

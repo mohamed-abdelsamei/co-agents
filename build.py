@@ -148,12 +148,22 @@ def build_prompt(path: Path) -> tuple[str, str]:
     return f"prompts/{name}.prompt.md", "\n".join(fm) + body
 
 
-def build_memory_instructions() -> tuple[str, str]:
-    """skills/team-memory/SKILL.md -> instructions/team-memory.instructions.md (applyTo '**')."""
-    src = ROOT / "skills" / "team-memory" / "SKILL.md"
-    pairs, body = split_frontmatter(src.read_text())
-    fm = ["---", "applyTo: '**'", "---", ""]
-    return "instructions/team-memory.instructions.md", "\n".join(fm) + body
+def build_skill_instructions() -> list[tuple[str, str]]:
+    """Every skills/<name>/SKILL.md -> instructions/<name>.instructions.md (applyTo '**').
+
+    Claude Code loads skills on demand; Copilot has no on-demand equivalent, so each skill
+    becomes an always-apply instructions file. Keep skills concise for this reason.
+    """
+    out = []
+    for skill_dir in sorted((ROOT / "skills").iterdir()):
+        src = skill_dir / "SKILL.md"
+        if not src.exists():
+            continue
+        pairs, body = split_frontmatter(src.read_text())
+        name = fm_get(pairs, "name") or skill_dir.name
+        fm = ["---", "applyTo: '**'", "---", ""]
+        out.append((f"instructions/{name}.instructions.md", "\n".join(fm) + body))
+    return out
 
 
 # ─── Conductor templates (shared doctrine, expanded into each tool's conductor) ──
@@ -189,8 +199,8 @@ def build() -> dict[str, str]:
         rel, content = build_prompt(p)
         files[rel] = content
 
-    rel, content = build_memory_instructions()
-    files[rel] = content
+    for rel, content in build_skill_instructions():
+        files[rel] = content
 
     # Copilot conductors — rendered from conductors/*.template.md + shared/doctrine/.
     instructions = render_conductor("copilot-instructions.template.md")

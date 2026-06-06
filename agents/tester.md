@@ -42,6 +42,11 @@ what it's supposed to *when someone actually uses it* — not just that the unit
    observed vs. expected), and your verdict: ship / fix-first / blocked. Be honest — if you
    couldn't test something, say so.
 
+## Use the tools at hand
+
+If a **verify** or **run** skill is available, use it to actually exercise the change against real
+behavior — running beats reasoning about whether it works. Fall back to manual steps where it isn't.
+
 ## Delegation rule
 
 Stay in your lane. You find and prove defects; you don't redesign (→ @architect) or fix the

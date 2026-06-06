@@ -129,9 +129,16 @@ else
   PROJECT="$(cd "$PROJECT" && pwd)"
   GH="$PROJECT/.github"
   log "Installing the team into ${PROJECT}/.github/ ..."
-  copy_glob "$DIST/agents"       "*.agent.md"        "$GH/agents"
-  copy_glob "$DIST/prompts"      "*.prompt.md"       "$GH/prompts"
-  copy_glob "$DIST/instructions" "team-memory.instructions.md" "$GH/instructions"
+  copy_glob "$DIST/agents"  "*.agent.md"  "$GH/agents"
+  copy_glob "$DIST/prompts" "*.prompt.md" "$GH/prompts"
+  # All skill instructions (team-memory + the method skills), but NOT the global-only conductor
+  # variant (co-agents.instructions.md) — project scope uses copilot-instructions.md instead.
+  shopt -s nullglob
+  for f in "$DIST/instructions"/*.instructions.md; do
+    [[ "$(basename "$f")" == "co-agents.instructions.md" ]] && continue
+    copy_file "$f" "$GH/instructions/$(basename "$f")"
+  done
+  shopt -u nullglob
   # Preserve any existing copilot-instructions.md — it's the project's, and authoritative.
   if [[ -f "$GH/copilot-instructions.md" ]] && ! $FORCE; then
     warn "keeping your existing .github/copilot-instructions.md (the team will read, not replace it)"

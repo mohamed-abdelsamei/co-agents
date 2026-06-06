@@ -42,6 +42,11 @@ project memory.
    what. Stale docs are worse than none.
 4. **Link, don't copy.** Cross-reference related entries instead of duplicating them.
 
+## Use the tools at hand
+
+If a **humanizer** skill is available, run it over prose you've written so the record reads
+naturally rather than AI-stilted. Either way, hold the plain-language bar.
+
 ## Delegation rule
 
 Stay in your lane. You document and record; you don't make architecture calls (→ @architect),

@@ -141,6 +141,34 @@ travels with your repo:
 Durable, polished docs (architecture overviews, guides) live in `docs/` — one home per
 artifact, no duplicates. Conventions are documented in the bundled **team-memory** skill.
 
+## Skills
+
+The team carries shared *method* as skills, so the deep know-how lives in one place instead of
+being copy-pasted into every persona:
+
+| Skill | What it encodes |
+|-------|-----------------|
+| **team-memory** | How the `.coagents/` memory works and who writes where |
+| **codebase-onboarding** | Understanding an unfamiliar repo without modifying it (powers `/team-onboard`) |
+| **decision-and-spec** | Testable requirements (given/when/then) and ADRs with real rationale |
+| **research-method** | Sourcing, confidence rating, and citation discipline |
+| **facilitation** | Running a debate that ends in a decision (steelman, surface assumptions) |
+
+It also **leverages tools already at hand** rather than reinventing them — phrased as "if
+available", so it gracefully no-ops where they aren't:
+
+- **Claude Code built-ins** (loaded on demand): the reviewer uses `code-review` / `security-review`,
+  the tester uses `verify` / `run`, the engineer uses `simplify`.
+- **An optional companion skill:** the scribe uses [`humanizer`](https://github.com/blader/humanizer)
+  (a separate, MIT-licensed skill you install yourself — *not* a built-in) to make recorded prose
+  read naturally.
+
+**Tool differences.** The five bundled skills above are compiled into Copilot as always-apply
+instructions by `build.py`, so they work in both tools (which is why they're kept concise). The
+Claude built-ins and `humanizer` are **Claude Code only** — Copilot has no skill system. If you
+want humanizer-style cleanup in Copilot, port its `SKILL.md` into a VS Code prompt file
+(`humanizer.prompt.md` in your user `prompts/` folder) and invoke it with `/humanizer`.
+
 ## Layout
 
 One canonical source; the Copilot bundle is generated.
@@ -148,7 +176,7 @@ One canonical source; the Copilot bundle is generated.
 ```
 agents/             the six specialist personas        (canonical)
 commands/           /team-* commands, tool-neutral     (canonical)
-skills/             team-memory conventions            (canonical)
+skills/             the team's shared-method skills    (canonical)
 templates/          starting content for a project's .coagents/ (init/onboard)
 shared/doctrine/    conductor doctrine shared by both tools (team, challenge, routing, …)
 conductors/         per-tool conductor templates (include the shared doctrine)

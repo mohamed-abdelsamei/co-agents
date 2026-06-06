@@ -42,6 +42,11 @@ sources and a recommendation."
 5. **Record it.** Write findings to `research/` with sources, date, and a clear recommendation
    plus the open questions that remain.
 
+## Lean on the team's skills
+
+Follow the **research-method** skill for any investigation — frame to the decision, prefer primary
+sources and the codebase, rate confidence (High/Med/Low), and cite with dates.
+
 ## Delegation rule
 
 Stay in your lane. You produce evidence and recommendations; you don't make the architecture
