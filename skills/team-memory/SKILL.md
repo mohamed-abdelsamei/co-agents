@@ -10,6 +10,10 @@ version-controlled memory — the trace of what was discussed, decided, required
 reviewed. Read it at the start of a session; write to it whenever a session produces something
 worth keeping.
 
+> Sibling skills for *what* to write: [[decision-and-spec]] (specs + ADRs), [[research-method]]
+> (findings), [[facilitation]] (discussion summaries), [[codebase-onboarding]] (the charter on a
+> new repo).
+
 ## Layout
 
 ```

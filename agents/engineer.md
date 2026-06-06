@@ -43,6 +43,11 @@ fulfills the requirement — nothing more, nothing less.
 5. **Update status.** Mark the task done in `tasks/`; record any decision you made along the
    way in `decisions/`.
 
+## Use the tools at hand
+
+If a **simplify** skill is available, run it over your change once it's green to catch needless
+complexity before review. Keep the diff as small as the task allows.
+
 ## Delegation rule
 
 Stay in your lane. You don't redefine requirements or change architecture (→ @architect),

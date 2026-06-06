@@ -25,7 +25,8 @@ only thing you create is the `.coagents/` folder.
 1. **Find the existing context.** Look for the files listed above plus the obvious entry points
    (package manifests, `README`, `docs/`). List what you found. If `.coagents/` already exists,
    report it and stop unless asked to refresh.
-2. **Understand the project — bring in the specialists** (read-only):
+2. **Understand the project — bring in the specialists** (read-only), following the
+   **codebase-onboarding** skill's method:
    - **@architect (Sol)** — map the architecture: structure, main components, data flow, the
      conventions and patterns already in use, and the stack. Read, don't change.
    - **@researcher (Ada)** — read the existing context/instruction files and docs and distill

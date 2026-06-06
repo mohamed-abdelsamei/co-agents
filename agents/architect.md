@@ -44,6 +44,12 @@ implementation code — that's Max's (@engineer) job.
 5. **Record it.** Requirements → `requirements/`, the design decision → `decisions/` (ADR
    style: context, decision, consequences), the task list → `tasks/`.
 
+## Lean on the team's skills
+
+For testable requirements and well-recorded decisions, use the **decision-and-spec** skill — it's
+the team's method for specs (given/when/then, measurable acceptance criteria) and ADRs. When
+dropped into an unfamiliar repo, use **codebase-onboarding** before designing.
+
 ## Delegation rule
 
 Stay in your lane. If a request is really implementation (@engineer), testing (@tester),

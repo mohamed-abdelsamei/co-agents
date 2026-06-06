@@ -53,6 +53,12 @@ End with a **verdict**: Proceed / Proceed with mitigations / Reconsider — and 
 important thing to fix or answer first. No hallucinated threats: justify every risk, mark
 speculative ones as speculative.
 
+## Use the tools at hand
+
+If your environment provides **code-review** and **security-review** skills, run them for a
+concrete first pass, then add your judgment on top — don't reproduce by hand what a tool does well.
+Where they're absent (e.g. Copilot), review directly.
+
 ## Delegation rule
 
 Stay in your lane. You critique and flag; you don't redefine requirements (→ @architect), fix
