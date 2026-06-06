@@ -1,12 +1,68 @@
 # Co-Agents
 
-A reusable **agent team** that takes a project from **research and planning through implementation, review, and ops** — running in both **Claude Code** and **GitHub Copilot**. Five specialized agents, 13 `/co-*` commands, and a persistent, version-controlled **project memory** (decisions, requirements, tasks, and a research knowledge base) so context and rationale are never lost between sessions.
+A reusable **team of AI agents** for your work and pet projects. Six specialists — each with a
+distinct **personality and point of view** — run a real feature lifecycle: **brainstorm a
+requirement from multiple angles, agree on a solution, split it into tasks, then build, test,
+review, and document it.** A master conductor (the **Maestro**) frames the work, convenes the
+team, routes requests, and keeps the rationale. Every project gets its own committed **memory
+folder** so discussions and decisions are never lost between sessions.
 
-It's built for more than shipping code: research is a first-class phase with sourced, confidence-rated findings and a living knowledge index, and planning has a lightweight mode for exploratory or non-code work.
+It runs in **GitHub Copilot (VS Code)** and **Claude Code** from one source. Talk to the
+**Maestro** and let it delegate, or address **any specialist directly** — and if a request isn't
+theirs, they hand it to the right teammate.
 
-The same agents, commands, and conventions are authored once in `src/` and generated into each tool's **native** distribution format — a plugin for Claude Code, `.github/` files for GitHub Copilot. Adding another editor is one adapter.
+## The team
 
-## Quick Start
+| Agent | Persona | Bias (kept honest by the team) | Owns |
+|-------|---------|-------------------------------|------|
+| **Maestro** | Calm facilitator (the conductor — a selectable agent in Copilot; the main session in Claude Code) | Forces a decision | Framing, routing, brainstorm rounds, synthesis, memory |
+| `@architect` — **Sol** | Systems thinker | Leans to structure; can over-engineer | Analysis, design, task breakdown |
+| `@engineer` — **Max** | Pragmatist | Ships fast; can under-design | Implementation, debugging, spikes |
+| `@tester` — **Vera** | The breaker | Thorough; can over-test | Test plans, verification, edge cases |
+| `@reviewer` — **Cass** | Constructive red-teamer | Risk-focused; can slow things down | Code review + decision critique |
+| `@researcher` — **Ada** | Evidence-driven scholar | Rigorous; can rabbit-hole | Options, prior art, sourced findings |
+| `@scribe` — **Quill** | Clear voice | Thorough; can over-document | Docs + recording the team's work |
+
+The biases are deliberate. When Sol wants structure and Max wants to ship, that tension is the
+point — a brainstorm with six agreeable agents is just one opinion repeated.
+
+**The team challenges you, too.** By design, no agent is a yes-man: they push back on weak
+reasoning — yours included — before acting on it. Everything they record is written for *you* to
+read and understand later (plain language, terms defined, the *why* always explained), and you can
+interrogate any of it: ask what a decision means with `/team-ask`, or have your own reasoning
+grilled one sharp question at a time with `/team-grill`.
+
+From one canonical source, the six personas, nine commands, and memory conventions run in both
+tools; `build.py` generates the native Copilot bundle.
+
+## Install
+
+### GitHub Copilot (VS Code)
+
+Install globally, for every workspace, from a clone of this repo:
+
+```bash
+git clone https://github.com/mohamed-abdelsamei/co-agents.git
+cd co-agents
+./install.sh                 # → your VS Code user profile (all workspaces)
+```
+
+Or install the team into a single repo's `.github/` (preserves any existing
+`copilot-instructions.md`):
+
+```bash
+./install.sh --project /path/to/your/repo
+```
+
+Needs `python3`. After installing, open Copilot Chat and pick the **Maestro** agent (or a
+specialist) from the agents dropdown, or run a `/team-*` prompt. Run `--dry-run` first to preview,
+`--help` for all options.
+
+> **How global install works:** the build emits VS Code custom agents (`*.agent.md`), prompt
+> files (`*.prompt.md`), and an always-apply instructions file, and the installer drops them into
+> your VS Code user-profile `prompts/` folder, which VS Code discovers in every workspace. Memory
+> (`.coagents/`) is per-project — run `/team-init` (new) or `/team-onboard` (existing) inside a
+> project to create it.
 
 ### Claude Code (plugin)
 
@@ -15,224 +71,135 @@ The same agents, commands, and conventions are authored once in `src/` and gener
 /plugin install co-agents
 ```
 
-Then, inside your project, run `/co-setup` (new project) or `/co-init` (existing project) — the command creates `.co-agents/`, `docs/`, and `CLAUDE.md` for you.
+### Then bring the team onto your project (once)
 
-### GitHub Copilot (file install)
+- **New project** (little/no code) → `/team-init` — a short interview, then it scaffolds memory.
+- **Existing project** → `/team-onboard` — the team scans and *understands* your codebase and any
+  existing context files (`CLAUDE.md`, `AGENTS.md`, `copilot-instructions.md`, `context.md`, …)
+  **without modifying them**, then builds its memory to complement them.
 
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/mohamed-abdelsamei/co-agents/main/install.sh) .
-```
+## Commands
 
-Requires `python3` (the installer builds the `.github/` layout from source). For private repos, add `--ssh`. See [install options](#install-options) for more. Then:
+| What you want | Command |
+|---------------|---------|
+| Start the team on a **new** project | `/team-init` |
+| Onboard the team to an **existing** project | `/team-onboard` |
+| Debate a topic from every angle and decide | `/team-brainstorm <topic>` |
+| Turn a feature/requirement into a plan + tasks | `/team-plan <feature>` |
+| Build a task: implement → test → review | `/team-build <task>` |
+| Review code, or stress-test a decision | `/team-review <target>` |
+| Ask about any decision, term, or topic | `/team-ask <question>` |
+| Be interrogated on your own reasoning | `/team-grill <idea>` |
+| Hand any request to the Maestro to route | `/team-delegate <request>` |
 
-1. Edit `.github/copilot-instructions.md` to define your stack (languages, frameworks, infrastructure)
-2. Run `/co-init` to scan the codebase, populate project memory, and define principles
+Or skip the commands and just talk: pick the Maestro (or a specialist) and ask in plain language.
+In Copilot, choose the agent from the agents dropdown; in Claude Code, `@`-mention it
+(`@architect design the schema`, `@reviewer poke holes in this plan`).
 
-## Agents
+## How it works
 
-| Agent | Role |
-|-------|------|
-| `@architect` | Requirements, architecture, task planning (incl. lightweight/non-code), code review, strategic advice |
-| `@engineer` | Implementation, debugging, TDD, experiments, demos |
-| `@devops` | CI/CD, infrastructure-as-code, deployment, monitoring |
-| `@researcher` | Evidence-based research with a living knowledge base, technology comparisons, and documentation |
-| `@critic` | Adversarial stress-testing — decision critique, bad-actor/threat analysis, and the missed questions, before you commit |
+The **Maestro** is the conductor: it frames the problem, brings in the right specialists, runs the
+debate, synthesizes a decision, and records it. The six specialists do the focused work.
 
-## Workflow
+**The marquee flow — `/team-brainstorm`:**
 
-```
-/co-setup or /co-init → /co-spec → /co-plan → /co-build → /co-review
-```
+1. The Maestro frames the question and picks who belongs at the table.
+2. Those specialists give their views **independently** — each in character.
+3. The Maestro surfaces the **agreements and the real tensions**.
+4. A focused **rebuttal round**: the conflicting agents respond to each other.
+5. The Maestro **synthesizes** a recommendation — which arguments won, which tradeoffs were
+   accepted, what's still open.
+6. The decision and discussion are written to project memory.
 
-Research (`/co-research`), documentation (`/co-docs`), advisory (`/co-advise`), critique (`/co-critique`), and infrastructure (`/co-deploy`) can be used at any phase. `/co-critique` is most valuable right before you commit to a decision or plan — run it after `/co-spec` or `/co-plan`, or on any recorded decision. It has two modes: a one-shot written critique (default), or **`/co-grill <topic>`** to be **interrogated live**, one sharp question at a time (also `/co-critique grill <topic>`).
+**Delegation.** Ask for anything. The Maestro classifies it and routes to the one right
+specialist — or convenes the team if it's big. If a specialist gets something out of its lane,
+it names the right teammate and the Maestro re-routes.
 
-**Refinement loop:**
+> **How the orchestration differs by tool:** in **Copilot**, the Maestro and specialists are
+> custom agents that hand off to each other natively, and a brainstorm is held in one chat where
+> the Maestro speaks as each persona in turn before synthesizing. In **Claude Code**, a subagent
+> can't spawn other subagents, so the main session plays Maestro — spawning specialists as
+> subagents, carrying handoffs and the debate state between them. Same team and commands; the
+> conductor's mechanics adapt to each tool.
 
-```
-/co-spec (refine mode) → /co-plan → /co-build → /co-review
-```
+## Project memory (`.coagents/`)
 
-**Experiment fast-track:**
-
-```
-/co-build (experiment mode) → (success?) → /co-spec → full SDLC
-```
-
-## Prompts
-
-| What You Need | Prompt | Agent |
-|---------------|--------|-------|
-| Set up a new project — constitution + stack config | `/co-setup` | `@architect` |
-| Onboard existing project + define principles | `/co-init` | `@architect` |
-| Gather, clarify, or refine requirements | `/co-spec` | `@architect` |
-| Plan & break into tasks + consistency check | `/co-plan` | `@architect` |
-| Implement features, experiments, or demos | `/co-build` | `@engineer` |
-| Report & fix a bug | `/co-fix` | `@engineer` |
-| Review implementation | `/co-review` | `@architect` |
-| Strategic advice or feature assessment | `/co-advise` | `@architect` |
-| Stress-test a decision/plan before committing | `/co-critique` | `@critic` |
-| Be interrogated live about your reasoning | `/co-grill` | `@critic` |
-| Research a topic | `/co-research` | `@researcher` |
-| Write documentation | `/co-docs` | `@researcher` |
-| Infrastructure / CI/CD / deployment | `/co-deploy` | `@devops` |
-
-## What Gets Installed
-
-**Claude Code** — installs the plugin (agents, commands, skills) into Claude's plugin cache; nothing is copied into your repo. Running `/co-setup` or `/co-init` then bootstraps the project files:
+`/team-init` (new project) or `/team-onboard` (existing project) creates a committed folder that
+travels with your repo:
 
 ```
-your-project/          (created on first /co-setup or /co-init)
-├── CLAUDE.md           Main instructions (routing, project memory, stack)
-├── docs/               Durable source of truth — architecture.md, specs, guides
-└── .co-agents/         Operational project memory (see below)
+.coagents/
+  charter.md       project principles + stack (read first, every session)
+  discussions/     brainstorm summaries
+  decisions/       ADR-style decision log
+  requirements/    specs
+  tasks/           task breakdowns + status
+  research/        sourced findings
+  reviews/         reviews + critiques
 ```
 
-**GitHub Copilot** — the installer copies files into your repo:
+Durable, polished docs (architecture overviews, guides) live in `docs/` — one home per
+artifact, no duplicates. Conventions are documented in the bundled **team-memory** skill.
+
+## Layout
+
+One canonical source; the Copilot bundle is generated.
 
 ```
-your-project/
-├── .github/
-│   ├── agents/           5 agent definitions
-│   ├── prompts/          13 prompt workflows
-│   ├── instructions/     Shared standards (auto-applied via applyTo)
-│   ├── skills/           Workflow skills (co-memory)
-│   └── copilot-instructions.md
-├── docs/                 Durable source of truth
-│   ├── README.md
-│   └── architecture.md   Architecture overview (single home)
-└── .co-agents/           Operational project memory
-    ├── constitution.md
-    ├── decisions.md
-    ├── improvements.md
-    ├── requirements/  tasks/  reviews/  research/  experiments/
+agents/             the six specialist personas        (canonical)
+commands/           /team-* commands, tool-neutral     (canonical)
+skills/             team-memory conventions            (canonical)
+templates/          starting content for a project's .coagents/ (init/onboard)
+shared/doctrine/    conductor doctrine shared by both tools (team, challenge, routing, …)
+conductors/         per-tool conductor templates (include the shared doctrine)
+build.py            renders conductors + generates the Copilot bundle
+CLAUDE.md           the Claude conductor — GENERATED (do not edit by hand)
+.claude-plugin/     plugin.json + marketplace.json     (Claude Code plugin manifest)
+install.sh          builds + installs the Copilot bundle (global or per-project)
+.github/workflows/  CI: build + frontmatter/sync checks
+dist/copilot/       generated Copilot bundle (git-ignored)
 ```
 
-## Code Quality
+### Editing
 
-The framework enforces clean, maintainable code through rules baked into the `@engineer` and `@architect` agents:
+The conductor doctrine (team roster, challenge ethos, writing rules, routing, memory) lives **once**
+in `shared/doctrine/` and is included into each tool's conductor via `<!-- include: X -->` markers
+in `conductors/`. So:
 
-| Rule | Enforced By |
-|------|-------------|
-| **Single Responsibility** — each function does one thing | `@engineer` (decompose before writing) + `@architect` (review structural check) |
-| **Small functions** — prefer ~20 lines max, split longer ones into helpers | `@engineer` (self-review gate) + `@architect` (flags oversized functions) |
-| **Shallow nesting** — max 2-3 levels, use early returns and guard clauses | `@engineer` + `@architect` |
-| **Focused files** — split when a file covers multiple concerns | `@engineer` + `@architect` |
-| **TDD** — write failing tests first for tasks marked `Approach: TDD` | `@engineer` (strict compliance) |
-| **Constitution enforcement** — principles from `constitution.md` are non-negotiable | `@engineer` (checks before coding) + `@architect` (alignment check) |
-| **Security scans** — run on every new or modified code | `@engineer` (after coding) + `@architect` (verification) |
+- **Shared behavior** (applies to both tools) → edit `shared/doctrine/`.
+- **Tool-specific orchestration** → edit `conductors/CLAUDE.template.md` (Claude) or
+  `conductors/copilot-instructions.template.md` / `conductors/maestro.agent.template.md` (Copilot).
+- **Personas / commands / memory conventions** → edit `agents/`, `commands/`, `skills/`.
 
-Customize thresholds and add language-specific rules in `.github/copilot-instructions.md`.
+After **any** change, run `python3 build.py` (or `./install.sh`, which builds first). This
+regenerates `CLAUDE.md` and `dist/copilot/` — never edit those by hand. CI fails if `CLAUDE.md` is
+out of sync, so commit it alongside your source change.
 
-## Git Conventions
+## Design principles
 
-All agents use git to track their work (`@architect`/`@engineer` for code and plans, `@researcher` for docs/research, `@devops` for infrastructure):
+- **Single-level orchestration.** One conductor (the Maestro) drives many specialists; specialists
+  don't drive each other. Delegation is conductor-mediated. This matches Claude Code's constraint
+  (subagents can't spawn subagents) and keeps control flow legible.
+- **Productive disagreement.** Personas carry deliberate, opposing biases so a brainstorm produces
+  real tension, not consensus theater. The Maestro's job is to force a decision out of it.
+- **Memory is the product.** Decisions and their rationale are written to a committed `.coagents/`
+  folder, in plain language, for a human to read later. A conclusion that isn't written down
+  didn't happen.
+- **Respect what's already there.** Onboarding reads existing context files (`CLAUDE.md`,
+  `AGENTS.md`, `copilot-instructions.md`, …) and never modifies them — they're authoritative.
+- **One source, native targets.** Author once; generate each tool's native format.
 
-| Convention | Details |
-|------------|--------|
-| **Branch naming** | `feat/`, `fix/`, `spike/` (engineer) · `docs/`, `plan/` (architect) |
-| **Commit messages** | Conventional commits — `feat:`, `fix:`, `test:`, `refactor:`, `docs:`, `chore:` |
-| **Atomic commits** | One logical change per commit, committed after each completed task or TDD cycle |
-| **No secrets** | Never commit credentials or environment-specific config |
+## Known limitations
 
-## Auto-Continue
+- **Guardrails are instructional, not enforced.** Memory write-scoping and "stay in your lane"
+  rules are prose the model follows, not hard permissions. Agents can do whatever their granted
+  tools allow.
+- **Brainstorms cost tokens.** Convening several specialists across rounds is expensive; pick the
+  smallest table that still disagrees, and prefer a single rebuttal round.
+- **Copilot orchestration is newer ground.** VS Code recently renamed chat modes to custom agents;
+  exact handoff behavior can vary by version. The installer prints the `chat.*FilesLocations`
+  settings if your build doesn't auto-discover user files.
 
-The `@engineer` implements tasks continuously without stopping between each one. After completing a task, it automatically picks the next unblocked task in the same phase (`##` section in the task file). It only stops when:
+## License
 
-- All tasks in the phase are done (suggests `/co-review`)
-- Next task is blocked by unmet prerequisites
-- A task fails compilation/tests after 2 attempts
-- A requirement is ambiguous
-
-This means you can run `/co-build all auth tasks` and walk away — the engineer will work through the entire phase autonomously.
-
-## Agent Feedback Loops
-
-Agents share context through `.co-agents/` so nothing falls through the cracks:
-
-| Loop | How It Works |
-|------|--------------|
-| **Tech debt → Planning** | `@engineer` logs tech debt in `improvements.md` → `@architect` reads it during `/co-plan` |
-| **Review → Fix tasks** | `@architect` appends fix tasks directly to the task file → `/co-build` picks them up |
-| **Review prerequisites** | `/co-review` verifies tasks are done before reviewing — won't run on unimplemented code |
-| **Infra alignment** | `@devops` follows architecture decisions from `docs/` and `decisions.md` |
-| **Refinement cascade** | `/co-spec` (refine mode) rewrites requirements → marks affected tasks `[!]` (re-verify) or `[obsolete]` → `/co-build` picks up clean plan |
-
-## Project Memory
-
-Every decision, requirement, and review is tracked in `.co-agents/` — committed to version control so context is never lost. Both `docs/` and `.co-agents/` are committed, with **one home per artifact** (no duplication): `docs/` holds durable source-of-truth documents; `.co-agents/` holds operational memory.
-
-| Location | Contents |
-|----------|----------|
-| `docs/architecture.md` | Architecture overview — single home |
-| `docs/` (other) | Design specs, API references, guides |
-| `.co-agents/constitution.md` | Non-negotiable principles and quality gates |
-| `.co-agents/decisions.md` | Append-only architecture decision records |
-| `.co-agents/improvements.md` | Tech debt and improvement backlog |
-| `.co-agents/requirements/` | One file per feature — testable requirements |
-| `.co-agents/tasks/` | Implementation plans broken into tracked tasks |
-| `.co-agents/reviews/` | Structured review reports with verdicts |
-| `.co-agents/research/` | Research findings (sourced, confidence-rated) + `README.md` knowledge index |
-| `.co-agents/experiments/` | Spike findings and demo scripts |
-
-## Install Options
-
-`install.sh` installs co-agents as **files** for either tool, at **project** or **user** scope. It's self-bootstrapping (run from a clone or one-line over curl) and needs `python3` + `git`, since it builds the layout from `src/` on the fly.
-
-> For **Claude Code**, the **marketplace plugin** (see [Quick Start](#quick-start)) is the recommended, zero-maintenance path — it's already user-global. Use `--claude` here only if you want the files locally (to commit or customize them).
-
-| Flag | Description |
-|------|-------------|
-| `--copilot` | GitHub Copilot layout (`.github/`) — the default tool |
-| `--claude` | Claude Code file layout (`.claude/` + `CLAUDE.md`) |
-| `--user` | Install at user/global scope (every project), no `<target>` and no memory skeleton. Claude → `~/.claude/`; Copilot → the VS Code user profile |
-| `--user-dir D` | Override the user-scope destination (Copilot) |
-| `--dry-run` | Preview without making changes |
-| `--force` | Overwrite existing files |
-| `--no-memory` | Skip the `.co-agents/` skeleton (project scope only) |
-| `--ssh` | When self-cloning over curl, clone via SSH (private repos) |
-
-**Scope:** *project* (default) installs into `<target>/` and lays the `.co-agents/` memory skeleton; *user* (`--user`) installs the agents/commands/skills globally for every project — memory stays per-project, so it's skipped.
-
-```bash
-git clone https://github.com/mohamed-abdelsamei/co-agents.git && cd co-agents
-./install.sh ~/Work/app                  # Copilot, this project
-./install.sh ~/Work/app --claude         # Claude files, this project
-./install.sh --claude --user             # Claude files in ~/.claude (all projects)
-./install.sh --copilot --user            # Copilot files in the VS Code user profile
-```
-
-> Copilot user-scope paths are IDE/version-specific; you may need to point Copilot at the dir (VS Code: `chat.promptFilesLocations` / `instructionsFilesLocations`), or pass `--user-dir`.
-
-## Contributing
-
-Everything is authored **once** in `src/` (Copilot dialect) and generated into each tool's native artifact under `dist/` by the adapter build. Edit `src/`, never `dist/`.
-
-```bash
-python3 -m adapters                  # build all targets
-python3 -m adapters claude           # build one target
-python3 -m adapters claude --check   # CI guard: fail if the committed plugin is stale
-```
-
-Only the Claude plugin (`dist/claude/`) is committed — the marketplace serves it from the repo. `dist/copilot/` and `dist/shared/` are git-ignored and built on demand by `install.sh`. Re-run `python3 -m adapters claude` and commit `dist/claude/` whenever you change `src/`.
-
-| What | Where (edit in `src/`) |
-|------|------------------------|
-| Main instructions | `src/main-instructions.md` |
-| Agent definitions | `src/agents/{name}.md` |
-| Command workflows | `src/commands/co-{name}.md` |
-| Shared instructions | `src/instructions/{name}.md` |
-| Skills | `src/skills/{name}/SKILL.md` |
-| Memory & docs skeleton | `src/shared/{memory,docs}/` |
-
-### How the build works
-
-`src/` is parsed once into a model (`adapters/model.py`), then one **adapter per target** emits its native layout:
-
-| Adapter | Output | Notes |
-|---------|--------|-------|
-| `adapters/copilot.py` | `dist/copilot/.github/` | Bodies verbatim; files renamed |
-| `adapters/claude.py` | `dist/claude/` (a plugin) | Maps tool names, rewrites `$INPUT`→`$ARGUMENTS` and paths to `${CLAUDE_PLUGIN_ROOT}`, emits `plugin.json` + bootstrap `templates/` |
-
-The repo root is itself a Claude **marketplace** (`.claude-plugin/marketplace.json` → `./dist/claude`).
-
-**Adding an editor** (e.g. opencode): write `adapters/<tool>.py` exposing `TARGET` and `build(model)`, register it in `adapters/__init__.py`, and run the build. No other code changes.
+MIT
