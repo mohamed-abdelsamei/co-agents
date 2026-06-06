@@ -1,9 +1,16 @@
-.vscode
-.DS_Store
-__pycache__/
-*.pyc
+# Generated Copilot bundle (produced by build.py / install.sh)
+dist/
 
-# Built on demand by the installer (only the Claude plugin, dist/claude/, is committed)
-dist/copilot/
-dist/shared/
-dist/claude-local/
+# Local, per-machine Claude Code settings (not shared)
+.claude/settings.local.json
+
+# OS / editor cruft
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Python (legacy build tooling — no longer used, kept ignored just in case)
+__pycache__/
+*.py[cod]
+.venv/

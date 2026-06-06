@@ -7,8 +7,8 @@
   "plugins": [
     {
       "name": "co-agents",
-      "source": "./dist/claude",
-      "description": "An agent team for the whole project lifecycle — research, planning, implementation, review, and ops — with persistent project memory. 5 agents, 13 /co-* commands."
+      "source": "./",
+      "description": "A persona-driven agent team — six specialists (architect, engineer, tester, reviewer, researcher, scribe) with distinct personalities, a master conductor that brainstorms and delegates, and per-project memory."
     }
   ]
 }
