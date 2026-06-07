@@ -43,5 +43,5 @@ Following the **decision-and-spec** skill (testable requirements + ADR craft), w
 - The task list → `.coagents/tasks/{slug}.md` — ordered, owned, with done-conditions and
   dependencies.
 
-End by showing the user the task list and the first task to pick up. Offer `/team-build <task>`
-to start implementation.
+End by showing the user the task list and the first task to pick up. Offer `/team-build <task>` to
+start implementation one task at a time — or `/team-ship` to build the whole backlog autonomously.

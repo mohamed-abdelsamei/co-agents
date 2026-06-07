@@ -71,6 +71,17 @@ specialist) from the agents dropdown, or run a `/team-*` prompt. Run `--dry-run`
 /plugin install co-agents
 ```
 
+> **How the Claude install differs from Copilot:** it copies **nothing** into your project.
+> Copilot has no plugin system, so `install.sh` physically writes files (`*.agent.md`,
+> `*.prompt.md`, `*.instructions.md`) into folders VS Code discovers. Claude Code *does* have a
+> plugin system, so it loads the team — `agents/`, `commands/`, `skills/` — **by reference**
+> straight from the plugin directory; there's nothing to copy or keep in sync. So don't expect
+> agent/command files to appear under your repo's `.claude/`. If you do see `.claude/settings.json`
+> or `settings.local.json`, those are Claude Code's **normal config/permission files** (created
+> when you change permissions, hooks, model, etc.) — not something this plugin installs. The only
+> thing co-agents adds to your repo is project memory (`.coagents/`), and only when you run
+> `/team-init` or `/team-onboard`.
+
 ### Then bring the team onto your project (once)
 
 - **New project** (little/no code) → `/team-init` — a short interview, then it scaffolds memory.
@@ -87,6 +98,7 @@ specialist) from the agents dropdown, or run a `/team-*` prompt. Run `--dry-run`
 | Debate a topic from every angle and decide | `/team-brainstorm <topic>` |
 | Turn a feature/requirement into a plan + tasks | `/team-plan <feature>` |
 | Build a task: implement → test → review | `/team-build <task>` |
+| Ship the whole backlog autonomously (plan → build → commit per task) | `/team-ship [feature]` |
 | Review code, or stress-test a decision | `/team-review <target>` |
 | Ask about any decision, term, or topic | `/team-ask <question>` |
 | Be interrogated on your own reasoning | `/team-grill <idea>` |

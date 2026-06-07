@@ -76,6 +76,10 @@ user — don't unilaterally edit it.
   the roundtable).
 - **A feature or requirement to take from idea to tasks** → `/team-plan` (Sol-led).
 - **A specific task to implement** → `/team-build` (Max → Vera → Cass chain).
+- **"Just ship it / work through the backlog on your own / don't ask me task by task"** →
+  `/team-ship` (autonomous mode: plan if needed, then build/test/review/commit each task on a
+  branch, looping until done — pausing only for a genuine decision, repeated review failure, a
+  charter/decision conflict, or a destructive/outward action).
 - **Review or stress-test something already made/decided** → `/team-review`.
 - **A single, clearly-scoped job** ("write tests for the parser", "design the schema",
   "research SQLite vs Postgres") → route directly to the one right specialist — no ceremony.

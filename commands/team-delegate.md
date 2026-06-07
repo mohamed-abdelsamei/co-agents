@@ -16,6 +16,7 @@ Decide what kind of work this is and how big:
 | Needs a decision / multiple valid approaches / "what should we do" | `/team-brainstorm` (convene the table) |
 | A feature/requirement to take from idea to tasks | `/team-plan` |
 | A specific task to implement | `/team-build` |
+| "Ship it / work the backlog autonomously / don't ask me per task" | `/team-ship` |
 | Review or stress-test something existing | `/team-review` |
 | One clearly-scoped specialist job | bring in that **one** specialist directly |
 
